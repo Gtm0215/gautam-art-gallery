@@ -6,41 +6,15 @@
 </head>
 <body>
 
-<h1>Painting Gallery</h1>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Gallery</a>
+  <a href="contact.html">Contact</a>
+</nav>
+
+<h1 style="text-align:center;">Our Paintings</h1>
 <div id="gallery"></div>
 
-<script>
-async function loadPaintings(){
-  const res = await fetch("/api/paintings");
-  const paintings = await res.json();
-
-  const container = document.getElementById("gallery");
-  container.innerHTML = "";
-
-  paintings.forEach(p => {
-    container.innerHTML += `
-      <div class="card">
-        <h3>${p.title}</h3>
-        <img src="${p.image}" width="200">
-        <p>${p.description}</p>
-        <p>Price: ${p.price}</p>
-        <p>Likes: <span id="likes-${p._id}">${p.likes}</span></p>
-        <button onclick="likePainting('${p._id}')">Like</button>
-      </div>
-    `;
-  });
-}
-
-async function likePainting(id){
-  const res = await fetch("/api/paintings/like/" + id, {
-    method: "POST"
-  });
-  const data = await res.json();
-  document.getElementById("likes-"+id).innerText = data.likes;
-}
-
-loadPaintings();
-</script>
-
+<script src="script.js"></script>
 </body>
 </html>
