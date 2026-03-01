@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>Admin Dashboard</h1>
+
+<h2>Login</h2>
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+<button onclick="login()">Login</button>
+
+<hr>
+
+<h2>Add Painting</h2>
+<input id="title" placeholder="Title">
+<input id="description" placeholder="Description">
+<input id="price" placeholder="Price">
+<input type="file" id="image">
+<button onclick="addPainting()">Add Painting</button>
+
+<script>
+
+let token = "";
+
+async function login() {
+  const res = await fetch("/api/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: document.getElementById("email").value,
+      password: document.getElementById("password").value
+    })
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    token = data.token;
+    alert("Login Successful!");
+  } else {
+    alert("Invalid Credentials");
+  }
+}
+
+async function addPainting() {
+  if(!token){
+    alert("Please login first");
+    return;
+  }
+
+  const formData = new FormData();
+  formData.append("title", document.getElementById("title").value);
+  formData.append("description", document.getElementById("description").value);
+  formData.append("price", document.getElementById("price").value);
+  formData.append("image", document.getElementById("image").files[0]);
+
+  const res = await fetch("/api/paintings/add", {
+    method: "POST",
+    headers: {
+      Authorization: "Bearer " + token
+    },
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if(data.success){
+    alert("Painting Added Successfully!");
+  } else {
+    alert("Error adding painting");
+  }
+}
+
+</script>
+
+</body>
+</html>
