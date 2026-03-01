@@ -1,17 +1,20 @@
-/* Background */
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap');
+
 body {
   margin: 0;
   font-family: 'Poppins', sans-serif;
   background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
   min-height: 100vh;
-  color: #333;
+  color: #222;
+  animation: fadeIn 1s ease-in;
 }
 
 /* Navbar */
 nav {
   display: flex;
   justify-content: center;
-  gap: 30px;
+  gap: 40px;
   padding: 20px;
 }
 
@@ -20,17 +23,17 @@ nav a {
   color: #222;
   font-weight: 600;
   position: relative;
-  transition: 0.3s ease;
+  transition: 0.3s;
 }
 
 nav a::after {
   content: "";
   width: 0%;
   height: 2px;
-  background: #fff;
+  background: white;
   position: absolute;
-  left: 0;
   bottom: -5px;
+  left: 0;
   transition: 0.3s;
 }
 
@@ -38,50 +41,76 @@ nav a:hover::after {
   width: 100%;
 }
 
+/* Hero Section */
+.hero {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.hero h1 {
+  font-size: 50px;
+  margin-bottom: 10px;
+}
+
+.hero p {
+  font-size: 18px;
+}
+
+/* Buttons */
+button {
+  padding: 12px 25px;
+  border-radius: 30px;
+  border: none;
+  background: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: #222;
+  color: white;
+  transform: scale(1.05);
+}
+
 /* Glass Card */
 .card {
   backdrop-filter: blur(15px);
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.25);
   border-radius: 20px;
   padding: 20px;
-  margin: 20px;
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   transition: 0.4s ease;
 }
 
 .card:hover {
-  transform: translateY(-10px);
+  transform: translateY(-8px);
 }
 
-/* Grid Layout */
+/* Grid */
 #gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
   padding: 40px;
-  gap: 20px;
 }
 
-/* Buttons */
-button {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 30px;
-  cursor: pointer;
-  background: white;
-  transition: 0.3s ease;
+.card img {
+  width: 100%;
+  border-radius: 15px;
 }
 
-button:hover {
-  background: #333;
-  color: white;
-  transform: scale(1.05);
-}
-
-/* Inputs */
+/* Forms */
 input, textarea {
-  padding: 10px;
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0;
   border-radius: 10px;
   border: none;
-  margin: 8px 0;
-  width: 100%;
+}
+
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
