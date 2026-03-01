@@ -1,13 +1,16 @@
 const express = require("express");
 const multer = require("multer");
+const path = require("path");
 const Painting = require("../models/Painting");
 const auth = require("../middleware/auth");
 
 const router = express.Router();
 
 const storage = multer.diskStorage({
-  destination: "public/uploads/",
-  filename: (req, file, cb) => {
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, "../public/uploads"));
+  },
+  filename: function (req, file, cb) {
     cb(null, Date.now() + "-" + file.originalname);
   }
 });
