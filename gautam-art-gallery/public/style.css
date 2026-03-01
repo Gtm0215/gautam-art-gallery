@@ -1,0 +1,59 @@
+body {
+margin:0;
+font-family:Arial;
+background:#f4f4f4;
+}
+header {
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:15px 40px;
+background:#111;
+color:white;
+}
+nav a {
+color:white;
+margin:0 10px;
+text-decoration:none;
+}
+.hero {
+height:80vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(to right,#6a11cb,#2575fc);
+color:white;
+text-align:center;
+}
+.btn {
+background:white;
+color:black;
+padding:10px 20px;
+border-radius:5px;
+text-decoration:none;
+}
+.gallery {
+display:flex;
+flex-wrap:wrap;
+justify-content:center;
+padding:20px;
+}
+.card {
+background:white;
+width:280px;
+margin:15px;
+padding:10px;
+border-radius:10px;
+box-shadow:0 5px 15px rgba(0,0,0,0.2);
+text-align:center;
+}
+.card img {
+width:100%;
+border-radius:10px;
+}
+button {
+padding:5px 10px;
+margin:5px;
+cursor:pointer;
+}
