@@ -1,31 +1,87 @@
+/* Background */
 body {
-  font-family: Arial;
-  padding: 20px;
-  background: #f4f4f4;
-}
-
-h1 {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #fbc2eb, #a6c1ee);
+  min-height: 100vh;
   color: #333;
 }
 
-input, textarea {
-  display: block;
-  margin: 10px 0;
-  padding: 8px;
-  width: 300px;
+/* Navbar */
+nav {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
 }
 
-button {
-  padding: 8px 15px;
-  background: black;
-  color: white;
-  border: none;
-  cursor: pointer;
+nav a {
+  text-decoration: none;
+  color: #222;
+  font-weight: 600;
+  position: relative;
+  transition: 0.3s ease;
 }
 
+nav a::after {
+  content: "";
+  width: 0%;
+  height: 2px;
+  background: #fff;
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  transition: 0.3s;
+}
+
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Glass Card */
 .card {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 10px;
+  backdrop-filter: blur(15px);
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 20px;
+  padding: 20px;
+  margin: 20px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transition: 0.4s ease;
+}
+
+.card:hover {
+  transform: translateY(-10px);
+}
+
+/* Grid Layout */
+#gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  padding: 40px;
+  gap: 20px;
+}
+
+/* Buttons */
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
   background: white;
+  transition: 0.3s ease;
+}
+
+button:hover {
+  background: #333;
+  color: white;
+  transform: scale(1.05);
+}
+
+/* Inputs */
+input, textarea {
+  padding: 10px;
+  border-radius: 10px;
+  border: none;
+  margin: 8px 0;
+  width: 100%;
 }
