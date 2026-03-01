@@ -6,104 +6,67 @@
 </head>
 <body>
 
-<h1>Admin Dashboard</h1>
+<nav>
+  <a href="index.html">Home</a>
+  <a href="gallery.html">Gallery</a>
+</nav>
 
-<h2>Login</h2>
-<input id="email" placeholder="Email">
-<input id="password" type="password" placeholder="Password">
-<button onclick="login()">Login</button>
+<h1 style="text-align:center;">Admin Dashboard</h1>
 
-<hr>
+<div style="max-width:400px;margin:auto;">
+  <input id="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button onclick="login()">Login</button>
 
-<h2>Add Painting</h2>
-<input id="title" placeholder="Title">
-<input id="description" placeholder="Description">
-<input id="price" placeholder="Price">
-<input type="file" id="image">
-<button onclick="addPainting()">Add Painting</button>
+  <hr>
+
+  <input id="title" placeholder="Title">
+  <input id="description" placeholder="Description">
+  <input id="price" placeholder="Price">
+  <input type="file" id="image">
+  <button onclick="addPainting()">Add Painting</button>
+</div>
 
 <script>
-
 async function login() {
-  try {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+  const res = await fetch("/api/admin/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      email: email.value,
+      password: password.value
+    })
+  });
 
-    const res = await fetch("/api/admin/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email, password })
-    });
+  const data = await res.json();
 
-    const data = await res.json();
-    console.log("Login Response:", data);
-
-    if (data.success && data.token) {
-      localStorage.setItem("token", data.token);
-      alert("Login Successful!");
-    } else {
-      alert("Invalid Credentials");
-    }
-
-  } catch (error) {
-    console.error("Login Error:", error);
-    alert("Login failed");
+  if (data.success) {
+    localStorage.setItem("token", data.token);
+    alert("Login Successful!");
+  } else {
+    alert("Invalid credentials");
   }
 }
 
 async function addPainting() {
-  try {
-    const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token");
+  if (!token) return alert("Login first");
 
-    if (!token) {
-      alert("Please login first");
-      return;
-    }
+  const formData = new FormData();
+  formData.append("title", title.value);
+  formData.append("description", description.value);
+  formData.append("price", price.value);
+  formData.append("image", image.files[0]);
 
-    const imageFile = document.getElementById("image").files[0];
+  const res = await fetch("/api/paintings/add", {
+    method: "POST",
+    headers: { Authorization: token },
+    body: formData
+  });
 
-    if (!imageFile) {
-      alert("Please select an image");
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append("title", document.getElementById("title").value);
-    formData.append("description", document.getElementById("description").value);
-    formData.append("price", document.getElementById("price").value);
-    formData.append("image", imageFile);
-
-    const res = await fetch("/api/paintings/add", {
-      method: "POST",
-      headers: {
-        Authorization: token
-      },
-      body: formData
-    });
-
-    const data = await res.json();
-    console.log("Add Painting Response:", data);
-
-    if (data.success) {
-      alert("Painting Added Successfully!");
-
-      // clear form
-      document.getElementById("title").value = "";
-      document.getElementById("description").value = "";
-      document.getElementById("price").value = "";
-      document.getElementById("image").value = "";
-    } else {
-      alert("Error adding painting");
-    }
-
-  } catch (error) {
-    console.error("Add Painting Error:", error);
-    alert("Server Error");
-  }
+  const data = await res.json();
+  alert(data.success ? "Added!" : "Error");
 }
-
 </script>
 
 </body>
