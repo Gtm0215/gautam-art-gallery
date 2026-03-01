@@ -1,12 +1,14 @@
 const mongoose = require("mongoose");
 
-const paintingSchema = new mongoose.Schema({
-  title: String,
-  description: String,
-  image: String,
-  price: Number,
-  likes: { type: Number, default: 0 },
-  createdAt: { type: Date, default: Date.now }
-});
+const paintingSchema = new mongoose.Schema(
+  {
+    title: String,
+    description: String,
+    price: String,
+    image: String,
+    likes: { type: Number, default: 0 }
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Painting", paintingSchema);
