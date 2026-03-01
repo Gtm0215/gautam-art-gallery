@@ -1,6 +1,5 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
-require("dotenv").config();
 
 const router = express.Router();
 
@@ -11,11 +10,16 @@ router.post("/login", (req, res) => {
     email === process.env.ADMIN_EMAIL &&
     password === process.env.ADMIN_PASSWORD
   ) {
-    const token = jwt.sign({ role: "admin" }, process.env.JWT_SECRET);
-    return res.json({ token });
+    const token = jwt.sign(
+      { role: "admin" },
+      process.env.JWT_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    return res.json({ success: true, token });
   }
 
-  res.status(401).json({ message: "Invalid credentials" });
+  res.status(401).json({ success: false, message: "Invalid credentials" });
 });
 
 module.exports = router;
