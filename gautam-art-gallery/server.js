@@ -20,5 +20,9 @@ mongoose
 app.use("/api/admin", adminRoutes);
 app.use("/api/paintings", paintingRoutes);
 
+app.get("/", (req, res) => {
+  res.send("Gautam Art Gallery Backend is Running 🚀");
+});
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log("Server running..."));
+app.listen(PORT, () => console.log("Server running on port", PORT));
