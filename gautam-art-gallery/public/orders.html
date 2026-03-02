@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>My Orders</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>My Orders</h1>
+<a href="/">Back to Home</a>
+
+<div id="orders"></div>
+
+<script>
+async function loadOrders() {
+
+  const token = localStorage.getItem("token");
+
+  const res = await fetch("/api/orders/my", {
+    headers: {
+      "Authorization": token
+    }
+  });
+
+  const orders = await res.json();
+
+  const container = document.getElementById("orders");
+
+  container.innerHTML = "";
+
+  orders.forEach(order => {
+
+    let itemsHTML = "";
+
+    order.items.forEach(item => {
+      itemsHTML += `
+        <li>
+          ${item.painting.title} - ₹${item.price}
+        </li>
+      `;
+    });
+
+    container.innerHTML += `
+      <div style="border:1px solid #ccc; padding:20px; margin:20px 0;">
+        <h3>Order ID: ${order._id}</h3>
+        <p>Status: ${order.status}</p>
+        <p>Total: ₹${order.totalAmount}</p>
+        <ul>${itemsHTML}</ul>
+      </div>
+    `;
+  });
+}
+
+loadOrders();
+</script>
+
+</body>
+</html>
