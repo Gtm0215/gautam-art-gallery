@@ -5,70 +5,54 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>craftco.lab</title>
 <link rel="stylesheet" href="style.css">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
 
 <body>
 
-<header class="navbar">
+<!-- TOP BAR -->
+<div class="top-bar">
+  Custom Paintings Available  |  Free Shipping Above ₹999  |  Limited Edition Art Drops
+</div>
+
+<!-- HEADER -->
+<header class="main-header">
+
   <div class="logo">craftco.lab</div>
 
-  <nav class="nav-links" id="navLinks">
-    <a href="/">Home</a>
-    <a href="#shop">Shop</a>
-    <a href="cart.html">Cart</a>
-    <a href="orders.html">Orders</a>
-    <a href="login.html" id="loginLink">Login</a>
-    <a href="#" id="logoutLink" onclick="logout()" style="display:none;">Logout</a>
+  <nav class="nav-links">
+    <a href="#">Categories</a>
+    <a href="#shop">Store</a>
+    <a href="orders.html">Track Order</a>
+    <a href="#">Contact Us</a>
   </nav>
 
-  <div class="hamburger" onclick="toggleMenu()">☰</div>
+  <div class="nav-icons">
+    <span>🔍</span>
+    <span>👤</span>
+    <span>♡</span>
+    <span onclick="window.location='cart.html'">🛒</span>
+  </div>
+
 </header>
 
-
-<section class="hero">
-  <div class="hero-inner">
-    <h1>Modern Artistic Expression</h1>
-    <p>Curated minimal paintings crafted for contemporary spaces.</p>
-    <a href="#shop" class="primary-btn">Shop Collection</a>
+<!-- HERO -->
+<section class="hero-section">
+  <div class="hero-container">
+    <img src="/uploads/hero.jpg" alt="Hero">
+    <div class="hero-overlay">
+      <h1>#ART COLLECTION</h1>
+      <p>Handmade paintings & creative prints you'll love</p>
+    </div>
   </div>
 </section>
 
-
-<section class="shop-section" id="shop">
-  <div class="section-header">
-    <h2>Featured Works</h2>
-  </div>
+<!-- PRODUCTS -->
+<section class="products-section" id="shop">
   <div class="product-grid" id="paintingsContainer"></div>
 </section>
 
-
-<footer class="footer">
-  <div class="footer-inner">
-    <p>© 2026 craftco.lab — All rights reserved</p>
-  </div>
-</footer>
-
-
 <script>
-
-/* NAV */
-function toggleMenu(){
-  document.getElementById("navLinks").classList.toggle("active");
-}
-
-function logout(){
-  localStorage.removeItem("token");
-  location.reload();
-}
-
-function checkLogin(){
-  const token = localStorage.getItem("token");
-  if(token){
-    document.getElementById("loginLink").style.display="none";
-    document.getElementById("logoutLink").style.display="inline";
-  }
-}
-checkLogin();
 
 /* LOAD PRODUCTS */
 async function loadPaintings(){
@@ -80,33 +64,18 @@ async function loadPaintings(){
   paintings.forEach(p=>{
     container.innerHTML += `
       <div class="product-card">
-        <div class="image-wrap">
-          <img src="${p.image}" alt="${p.title}">
-        </div>
-        <div class="product-info">
-          <h3>${p.title}</h3>
-          <p class="price">₹ ${p.price}</p>
-          <div class="product-actions">
-            <button onclick="addToCart('${p._id}')">Add to Cart</button>
-            <span onclick="likePainting('${p._id}',this)">♡</span>
-          </div>
-        </div>
+        <img src="${p.image}">
+        <h3>${p.title}</h3>
+        <p>₹ ${p.price}</p>
+        <button onclick="addToCart('${p._id}')">Add to Cart</button>
       </div>
     `;
   });
 }
 
-async function likePainting(id,el){
-  await fetch("/api/paintings/like/"+id,{method:"POST"});
-  el.classList.toggle("liked");
-}
-
 async function addToCart(id){
   const token = localStorage.getItem("token");
-  if(!token){
-    alert("Please login first");
-    return;
-  }
+  if(!token){ alert("Login first"); return; }
 
   await fetch("/api/cart/add",{
     method:"POST",
