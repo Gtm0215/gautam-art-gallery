@@ -1,97 +1,214 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>craftco.lab</title>
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <title>craftco.lab</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:#f6f6f6;
+    }
+
+    /* ================= MOVING TOP BAR ================= */
+
+    .top-bar{
+      width:100%;
+      background:#d85c57;
+      color:white;
+      overflow:hidden;
+      white-space:nowrap;
+      padding:10px 0;
+    }
+
+    .top-bar-track{
+      display:inline-block;
+      animation:scrollText 25s linear infinite;
+    }
+
+    .top-bar span{
+      margin:0 50px;
+      font-size:14px;
+      letter-spacing:1px;
+    }
+
+    @keyframes scrollText{
+      0%{transform:translateX(0);}
+      100%{transform:translateX(-50%);}
+    }
+
+    /* ================= NAVBAR ================= */
+
+    header{
+      background:white;
+      padding:20px 60px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      border-bottom:1px solid #eee;
+    }
+
+    .logo{
+      font-size:32px;
+      font-weight:500;
+      letter-spacing:2px;
+    }
+
+    nav{
+      display:flex;
+      gap:40px;
+    }
+
+    nav a{
+      text-decoration:none;
+      color:#333;
+      font-size:15px;
+    }
+
+    .icons{
+      display:flex;
+      gap:20px;
+      font-size:18px;
+    }
+
+    /* ================= HERO ================= */
+
+    .hero{
+      position:relative;
+      max-width:1400px;
+      margin:40px auto;
+      height:85vh;
+      border-radius:20px;
+      overflow:hidden;
+      background-image:url("/uploads/hero.png");
+      background-size:cover;
+      background-position:center;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:rgba(0,0,0,0.35);
+    }
+
+    .hero-content{
+      position:relative;
+      color:white;
+      text-align:center;
+      z-index:2;
+    }
+
+    .hero-content h1{
+      font-size:70px;
+      font-weight:300;
+      letter-spacing:4px;
+    }
+
+    .hero-content p{
+      margin-top:15px;
+      font-size:18px;
+    }
+
+    /* ================= RESPONSIVE ================= */
+
+    @media(max-width:1024px){
+      header{
+        padding:20px;
+      }
+
+      nav{
+        gap:20px;
+      }
+
+      .hero{
+        height:70vh;
+      }
+
+      .hero-content h1{
+        font-size:50px;
+      }
+    }
+
+    @media(max-width:768px){
+
+      header{
+        flex-direction:column;
+        gap:15px;
+      }
+
+      nav{
+        flex-wrap:wrap;
+        justify-content:center;
+      }
+
+      .hero{
+        height:60vh;
+        margin:20px;
+        border-radius:10px;
+      }
+
+      .hero-content h1{
+        font-size:32px;
+      }
+
+      .hero-content p{
+        font-size:14px;
+      }
+    }
+
+  </style>
 </head>
 
 <body>
 
-<!-- TOP BAR -->
+<!-- MOVING NOTIFICATION BAR -->
 <div class="top-bar">
-  Custom Paintings Available  |  Free Shipping Above ₹999  |  Limited Edition Art Drops
+  <div class="top-bar-track">
+    <span>Custom Paintings Available</span>
+    <span>Free Shipping Above ₹999</span>
+    <span>Limited Edition Art Drops</span>
+    <span>Custom Paintings Available</span>
+    <span>Free Shipping Above ₹999</span>
+    <span>Limited Edition Art Drops</span>
+  </div>
 </div>
 
-<!-- HEADER -->
-<header class="main-header">
-
+<!-- NAVBAR -->
+<header>
   <div class="logo">craftco.lab</div>
 
-  <nav class="nav-links">
+  <nav>
     <a href="#">Categories</a>
-    <a href="#shop">Store</a>
-    <a href="orders.html">Track Order</a>
+    <a href="#">Store</a>
+    <a href="#">Track Order</a>
     <a href="#">Contact Us</a>
   </nav>
 
-  <div class="nav-icons">
-    <span>🔍</span>
-    <span>👤</span>
-    <span>♡</span>
-    <span onclick="window.location='cart.html'">🛒</span>
+  <div class="icons">
+    🔍 👤 🤍 🛒
   </div>
-
 </header>
 
-<!-- HERO SECTION START -->
+<!-- HERO -->
 <section class="hero">
-  <div class="hero-overlay"></div>
-
   <div class="hero-content">
     <h1>#ART COLLECTION</h1>
     <p>Handmade paintings & creative prints you'll love</p>
   </div>
 </section>
-<!-- HERO SECTION END -->
-
-<!-- PRODUCTS -->
-<section class="products-section" id="shop">
-  <div class="product-grid" id="paintingsContainer"></div>
-</section>
-
-<script>
-
-/* LOAD PRODUCTS */
-async function loadPaintings(){
-  const res = await fetch("/api/paintings");
-  const paintings = await res.json();
-  const container = document.getElementById("paintingsContainer");
-  container.innerHTML="";
-
-  paintings.forEach(p=>{
-    container.innerHTML += `
-      <div class="product-card">
-        <img src="${p.image}">
-        <h3>${p.title}</h3>
-        <p>₹ ${p.price}</p>
-        <button onclick="addToCart('${p._id}')">Add to Cart</button>
-      </div>
-    `;
-  });
-}
-
-async function addToCart(id){
-  const token = localStorage.getItem("token");
-  if(!token){ alert("Login first"); return; }
-
-  await fetch("/api/cart/add",{
-    method:"POST",
-    headers:{
-      "Content-Type":"application/json",
-      Authorization:token
-    },
-    body:JSON.stringify({ paintingId:id })
-  });
-
-  alert("Added to cart");
-}
-
-loadPaintings();
-
-</script>
 
 </body>
 </html>
