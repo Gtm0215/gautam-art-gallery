@@ -7,43 +7,74 @@ const router = express.Router();
 
 /* ADD TO CART */
 router.post("/add", auth, async (req, res) => {
-  const { paintingId, size, framed } = req.body;
+  try {
+    const { paintingId, size, framed } = req.body;
 
-  const user = await User.findById(req.user.id);
-  const painting = await Painting.findById(paintingId);
+    const user = await User.findById(req.user.id);
 
-  if (!painting || painting.stock <= 0) {
-    return res.status(400).json({ message: "Out of stock" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const painting = await Painting.findById(paintingId);
+
+    if (!painting || painting.stock <= 0) {
+      return res.status(400).json({ message: "Out of stock" });
+    }
+
+    user.cart.push({
+      painting: paintingId,
+      size,
+      framed
+    });
+
+    await user.save();
+
+    res.json({ success: true });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
   }
-
-  user.cart.push({
-    painting: paintingId,
-    size,
-    framed
-  });
-
-  await user.save();
-
-  res.json({ success: true });
 });
 
 /* GET CART */
 router.get("/", auth, async (req, res) => {
-  const user = await User.findById(req.user.id).populate("cart.painting");
-  res.json(user.cart);
+  try {
+    const user = await User.findById(req.user.id).populate("cart.painting");
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user.cart);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 /* REMOVE ITEM */
 router.post("/remove", auth, async (req, res) => {
-  const { index } = req.body;
+  try {
+    const { index } = req.body;
 
-  const user = await User.findById(req.user.id);
+    const user = await User.findById(req.user.id);
 
-  user.cart.splice(index, 1);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-  await user.save();
+    user.cart.splice(index, 1);
+    await user.save();
 
-  res.json({ success: true });
+    res.json({ success: true });
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Server error" });
+  }
 });
 
 module.exports = router;
