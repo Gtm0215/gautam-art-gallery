@@ -1,25 +1,247 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Gautam Art Gallery</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Gautam Art Store</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins;}
+body{background:#f7f7f7;scroll-behavior:smooth;}
+header{background:white;padding:20px 50px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1000;}
+header h1{color:#e63946;font-weight:700;}
+nav a{margin:0 15px;text-decoration:none;color:#333;font-weight:500;}
+nav a:hover{color:#e63946;}
+
+.offer-bar{
+background:#000;
+color:white;
+padding:10px;
+text-align:center;
+font-weight:500;
+}
+
+.hero{
+height:90vh;
+display:flex;
+align-items:center;
+justify-content:center;
+color:white;
+text-align:center;
+background-size:cover;
+background-position:center;
+transition:1s;
+}
+
+.hero h2{
+font-size:60px;
+background:rgba(0,0,0,0.5);
+padding:20px 40px;
+border-radius:20px;
+}
+
+.section{
+padding:80px 10%;
+text-align:center;
+}
+
+.section h2{
+font-size:40px;
+margin-bottom:40px;
+}
+
+.categories{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.cat-card{
+background:white;
+padding:20px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+transition:0.3s;
+}
+
+.cat-card:hover{
+transform:translateY(-10px);
+}
+
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.product{
+background:white;
+border-radius:20px;
+padding:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+transition:0.3s;
+}
+
+.product img{
+width:100%;
+border-radius:15px;
+height:250px;
+object-fit:cover;
+}
+
+.product:hover{
+transform:translateY(-10px);
+}
+
+.btn{
+background:#e63946;
+color:white;
+padding:10px 20px;
+border:none;
+border-radius:30px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.reviews{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+gap:30px;
+}
+
+.review{
+background:white;
+padding:30px;
+border-radius:20px;
+box-shadow:0 10px 30px rgba(0,0,0,0.05);
+}
+
+.contact{
+background:#ffe5e9;
+padding:80px 10%;
+text-align:center;
+}
+
+footer{
+background:#111;
+color:white;
+padding:40px;
+text-align:center;
+}
+</style>
 </head>
+
 <body>
 
+<header>
+<h1>Gautam Store</h1>
 <nav>
-  <a href="index.html">Home</a>
-  <a href="gallery.html">Gallery</a>
-  <a href="contact.html">Contact</a>
-  <a href="admin.html">Admin</a>
+<a href="#">Home</a>
+<a href="#categories">Categories</a>
+<a href="#products">Products</a>
+<a href="#reviews">Reviews</a>
+<a href="#contact">Contact</a>
 </nav>
+</header>
 
-<div class="hero">
-  <h1>Gautam Art Gallery 🎨</h1>
-  <p>Where imagination meets canvas</p>
-  <a href="gallery.html">
-    <button>Explore Gallery</button>
-  </a>
+<div class="offer-bar" id="offerText">
+BUY 4 @ ₹800 ONLY 🔥
 </div>
+
+<div class="hero" id="heroSection">
+<h2 id="heroText">Premium Collection</h2>
+</div>
+
+<section class="section" id="categories">
+<h2>Shop By Categories</h2>
+<div class="categories">
+<div class="cat-card">Earrings</div>
+<div class="cat-card">Rings</div>
+<div class="cat-card">Necklace</div>
+<div class="cat-card">Bracelets</div>
+</div>
+</section>
+
+<section class="section" id="products">
+<h2>Trending Products</h2>
+<div class="products">
+<div class="product">
+<img src="https://images.unsplash.com/photo-1617038220319-276d3cfab638">
+<h3>Golden Necklace</h3>
+<p>₹499</p>
+<button class="btn">Add to Cart</button>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1585386959984-a41552231629">
+<h3>Silver Earrings</h3>
+<p>₹299</p>
+<button class="btn">Add to Cart</button>
+</div>
+
+<div class="product">
+<img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f">
+<h3>Diamond Ring</h3>
+<p>₹699</p>
+<button class="btn">Add to Cart</button>
+</div>
+</div>
+</section>
+
+<section class="section" id="reviews">
+<h2>Customer Reviews</h2>
+<div class="reviews">
+<div class="review">
+⭐⭐⭐⭐⭐  
+Amazing quality and fast delivery!
+</div>
+<div class="review">
+⭐⭐⭐⭐⭐  
+Loved the packaging and premium feel.
+</div>
+</div>
+</section>
+
+<section class="contact" id="contact">
+<h2>Connect With Us</h2>
+<p>Email: support@gautamstore.com</p>
+<p>WhatsApp: +91 99999 99999</p>
+</section>
+
+<footer>
+© 2026 Gautam Store | All Rights Reserved
+</footer>
+
+<script>
+const offers=[
+"BUY 4 @ ₹800 ONLY 🔥",
+"FREE SHIPPING ABOVE ₹599 🚚",
+"FLAT 50% OFF TODAY 🎉",
+"NEW ARRIVALS JUST DROPPED 💎"
+];
+
+let offerIndex=0;
+setInterval(()=>{
+offerIndex=(offerIndex+1)%offers.length;
+document.getElementById("offerText").innerText=offers[offerIndex];
+},3000);
+
+const heroImages=[
+"https://images.unsplash.com/photo-1605100804763-247f67b3557e",
+"https://images.unsplash.com/photo-1585386959984-a41552231629",
+"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f"
+];
+
+let heroIndex=0;
+function changeHero(){
+document.getElementById("heroSection").style.backgroundImage=`url(${heroImages[heroIndex]})`;
+heroIndex=(heroIndex+1)%heroImages.length;
+}
+changeHero();
+setInterval(changeHero,4000);
+</script>
 
 </body>
 </html>
