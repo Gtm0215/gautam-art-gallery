@@ -1,31 +1,26 @@
-async function loadPaintings() {
+function toggleMenu(){
+  document.getElementById("navLinks").classList.toggle("active");
+}
+
+async function loadProducts(){
   const res = await fetch("/api/paintings");
-  const paintings = await res.json();
+  const products = await res.json();
 
-  const container = document.getElementById("gallery");
-  container.innerHTML = "";
+  const grid = document.getElementById("productGrid");
+  grid.innerHTML = "";
 
-  paintings.forEach(p => {
-    container.innerHTML += `
-      <div class="card">
+  products.forEach(p=>{
+    grid.innerHTML += `
+      <div class="product-card">
         <img src="${p.image}">
-        <h3>${p.title}</h3>
-        <p>${p.description}</p>
-        <p><strong>₹ ${p.price}</strong></p>
-        <p>❤️ ${p.likes}</p>
-        <button onclick="likePainting('${p._id}')">Like</button>
+        <div class="product-info">
+          <h3>${p.title}</h3>
+          <div class="price">₹${p.price}</div>
+          <button class="btn">Add to Cart</button>
+        </div>
       </div>
     `;
   });
 }
 
-async function likePainting(id) {
-  await fetch("/api/paintings/like/" + id, {
-    method: "POST"
-  });
-  loadPaintings();
-}
-
-if (document.getElementById("gallery")) {
-  loadPaintings();
-}
+loadProducts();
