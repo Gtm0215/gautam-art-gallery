@@ -11,6 +11,7 @@
 *{margin:0;padding:0;box-sizing:border-box;font-family:Poppins}
 body{background:#f6f6f6;scroll-behavior:smooth}
 
+/* NAVBAR */
 header{
 background:white;
 padding:20px 60px;
@@ -24,14 +25,34 @@ box-shadow:0 5px 20px rgba(0,0,0,0.05)
 }
 
 header h1{font-weight:700;color:#222}
+
 nav a{
 margin:0 15px;
 text-decoration:none;
 color:#444;
-font-weight:500
+font-weight:500;
+position:relative;
+transition:0.3s;
 }
+
 nav a:hover{color:#e63946}
 
+nav a::after{
+content:"";
+width:0%;
+height:2px;
+background:#e63946;
+position:absolute;
+left:0;
+bottom:-5px;
+transition:0.3s;
+}
+
+nav a:hover::after{
+width:100%;
+}
+
+/* OFFER BAR */
 .offer-bar{
 background:black;
 color:white;
@@ -40,6 +61,7 @@ padding:10px;
 font-weight:500;
 }
 
+/* HERO */
 .hero{
 height:85vh;
 display:flex;
@@ -59,6 +81,7 @@ padding:20px 40px;
 border-radius:20px;
 }
 
+/* SECTION */
 .section{
 padding:80px 8%;
 text-align:center;
@@ -69,6 +92,7 @@ font-size:40px;
 margin-bottom:40px;
 }
 
+/* PRODUCTS GRID */
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
@@ -152,12 +176,15 @@ text-align:center;
 
 <header>
 <h1>Gautam Art Gallery</h1>
+
 <nav>
-<a href="#">Home</a>
+<a href="/">Home</a>
 <a href="#gallery">Gallery</a>
 <a href="#reviews">Reviews</a>
 <a href="#contact">Contact</a>
-<a href="/login.html">Login</a>
+<a href="/cart.html">Cart</a>
+<a href="/login.html" id="loginLink">Login</a>
+<a href="#" id="logoutLink" style="display:none;" onclick="logout()">Logout</a>
 </nav>
 </header>
 
@@ -177,7 +204,7 @@ text-align:center;
 <section class="section" id="reviews">
 <h2>Customer Reviews</h2>
 <div class="review">⭐⭐⭐⭐⭐ Amazing artwork quality!</div>
-<div class="review">⭐⭐⭐⭐⭐ Loved the packaging and framing.</div>
+<div class="review">⭐⭐⭐⭐⭐ Loved the framing and finish.</div>
 </section>
 
 <section class="contact" id="contact">
@@ -191,8 +218,29 @@ text-align:center;
 </footer>
 
 <script>
-/* ================= OFFER SLIDER ================= */
 
+/* LOGIN CHECK */
+function checkLoginStatus(){
+  const token = localStorage.getItem("token");
+
+  if(token){
+    document.getElementById("loginLink").style.display = "none";
+    document.getElementById("logoutLink").style.display = "inline";
+  } else {
+    document.getElementById("loginLink").style.display = "inline";
+    document.getElementById("logoutLink").style.display = "none";
+  }
+}
+
+function logout(){
+  localStorage.removeItem("token");
+  alert("Logged out successfully");
+  window.location.reload();
+}
+
+checkLoginStatus();
+
+/* OFFER SLIDER */
 const offers=[
 "🔥 BUY 2 PAINTINGS GET 10% OFF",
 "🎨 FREE SHIPPING ABOVE ₹999",
@@ -206,8 +254,7 @@ offerIndex=(offerIndex+1)%offers.length;
 document.getElementById("offerText").innerText=offers[offerIndex];
 },3000);
 
-/* ================= HERO SLIDER ================= */
-
+/* HERO SLIDER */
 const heroImages=[
 "https://images.unsplash.com/photo-1549887534-4d45e7a6b8f9",
 "https://images.unsplash.com/photo-1504198266285-165a38e4e2d9",
@@ -223,8 +270,7 @@ heroIndex=(heroIndex+1)%heroImages.length;
 changeHero();
 setInterval(changeHero,4000);
 
-/* ================= LOAD PAINTINGS ================= */
-
+/* LOAD PAINTINGS */
 async function loadPaintings(){
 const res=await fetch("/api/paintings");
 const paintings=await res.json();
@@ -260,15 +306,13 @@ ${p.framedOptions.map(f=>`<option>${f}</option>`).join("")}
 
 loadPaintings();
 
-/* ================= LIKE ================= */
-
+/* LIKE */
 async function likePainting(id,el){
 await fetch("/api/paintings/like/"+id,{method:"POST"});
 el.classList.toggle("active");
 }
 
-/* ================= CART ================= */
-
+/* CART */
 async function addToCart(id){
 const token=localStorage.getItem("token");
 if(!token){
@@ -294,6 +338,7 @@ framed:framed
 
 alert("Added to Cart!");
 }
+
 </script>
 
 </body>
