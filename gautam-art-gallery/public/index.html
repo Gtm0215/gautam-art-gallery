@@ -13,161 +13,150 @@ body{background:#f6f6f6;scroll-behavior:smooth}
 
 /* NAVBAR */
 header{
-background:white;
-padding:20px 60px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-position:sticky;
-top:0;
-z-index:1000;
-box-shadow:0 5px 20px rgba(0,0,0,0.05)
+ background:white;
+ padding:20px 60px;
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ position:sticky;
+ top:0;
+ z-index:1000;
+ box-shadow:0 5px 20px rgba(0,0,0,0.05)
 }
 
 header h1{font-weight:700;color:#222}
 
 nav a{
-margin:0 15px;
-text-decoration:none;
-color:#444;
-font-weight:500;
-position:relative;
-transition:0.3s;
+ margin:0 15px;
+ text-decoration:none;
+ color:#444;
+ font-weight:500;
+ position:relative;
+ transition:0.3s;
 }
 
 nav a:hover{color:#e63946}
 
 nav a::after{
-content:"";
-width:0%;
-height:2px;
-background:#e63946;
-position:absolute;
-left:0;
-bottom:-5px;
-transition:0.3s;
+ content:"";
+ width:0%;
+ height:2px;
+ background:#e63946;
+ position:absolute;
+ left:0;
+ bottom:-5px;
+ transition:0.3s;
 }
 
-nav a:hover::after{
-width:100%;
-}
+nav a:hover::after{ width:100%; }
 
 /* OFFER BAR */
 .offer-bar{
-background:black;
-color:white;
-text-align:center;
-padding:10px;
-font-weight:500;
+ background:black;
+ color:white;
+ text-align:center;
+ padding:10px;
+ font-weight:500;
 }
 
 /* HERO */
 .hero{
-height:85vh;
-display:flex;
-align-items:center;
-justify-content:center;
-text-align:center;
-color:white;
-background-size:cover;
-background-position:center;
-transition:1s;
+ height:85vh;
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ text-align:center;
+ color:white;
+ background-size:cover;
+ background-position:center;
+ transition:1s;
 }
 
 .hero h2{
-font-size:55px;
-background:rgba(0,0,0,0.6);
-padding:20px 40px;
-border-radius:20px;
+ font-size:55px;
+ background:rgba(0,0,0,0.6);
+ padding:20px 40px;
+ border-radius:20px;
 }
 
 /* SECTION */
 .section{
-padding:80px 8%;
-text-align:center;
+ padding:80px 8%;
+ text-align:center;
 }
 
 .section h2{
-font-size:40px;
-margin-bottom:40px;
+ font-size:40px;
+ margin-bottom:40px;
 }
 
 /* PRODUCTS GRID */
 .products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-gap:30px;
+ display:grid;
+ grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+ gap:30px;
 }
 
 .card{
-background:white;
-padding:20px;
-border-radius:20px;
-box-shadow:0 15px 35px rgba(0,0,0,0.05);
-transition:0.3s;
+ background:white;
+ padding:20px;
+ border-radius:20px;
+ box-shadow:0 15px 35px rgba(0,0,0,0.05);
+ transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-10px);
+ transform:translateY(-10px);
 }
 
 .card img{
-width:100%;
-height:260px;
-object-fit:cover;
-border-radius:15px;
-margin-bottom:15px;
+ width:100%;
+ height:260px;
+ object-fit:cover;
+ border-radius:15px;
+ margin-bottom:15px;
 }
 
 select{
-padding:6px;
-border-radius:8px;
-margin:5px 0;
+ padding:6px;
+ border-radius:8px;
+ margin:5px 0;
 }
 
 button{
-background:#e63946;
-color:white;
-border:none;
-padding:8px 16px;
-border-radius:30px;
-cursor:pointer;
-margin-top:10px;
+ background:#e63946;
+ color:white;
+ border:none;
+ padding:8px 16px;
+ border-radius:30px;
+ cursor:pointer;
+ margin-top:10px;
 }
 
-button:hover{
-opacity:0.9;
-}
+button:hover{ opacity:0.9; }
 
-.like{
-cursor:pointer;
-font-size:20px;
-color:#aaa;
-}
-
-.like.active{
-color:red;
-}
+.like{ cursor:pointer;font-size:20px;color:#aaa; }
+.like.active{ color:red; }
 
 .review{
-background:white;
-padding:25px;
-border-radius:20px;
-box-shadow:0 10px 30px rgba(0,0,0,0.05);
-margin-bottom:20px;
+ background:white;
+ padding:25px;
+ border-radius:20px;
+ box-shadow:0 10px 30px rgba(0,0,0,0.05);
+ margin-bottom:20px;
 }
 
 .contact{
-background:#ffe5e9;
-padding:80px 8%;
-text-align:center;
+ background:#ffe5e9;
+ padding:80px 8%;
+ text-align:center;
 }
 
 footer{
-background:#111;
-color:white;
-padding:40px;
-text-align:center;
+ background:#111;
+ color:white;
+ padding:40px;
+ text-align:center;
 }
 </style>
 </head>
@@ -182,6 +171,9 @@ text-align:center;
 <a href="#gallery">Gallery</a>
 <a href="#reviews">Reviews</a>
 <a href="#contact">Contact</a>
+
+<a href="/orders.html" id="ordersLink" style="display:none;">My Orders</a> <!-- ✅ ADDED -->
+
 <a href="/cart.html">Cart</a>
 <a href="/login.html" id="loginLink">Login</a>
 <a href="#" id="logoutLink" style="display:none;" onclick="logout()">Logout</a>
@@ -226,9 +218,11 @@ function checkLoginStatus(){
   if(token){
     document.getElementById("loginLink").style.display = "none";
     document.getElementById("logoutLink").style.display = "inline";
+    document.getElementById("ordersLink").style.display = "inline"; // ✅ SHOW ORDERS
   } else {
     document.getElementById("loginLink").style.display = "inline";
     document.getElementById("logoutLink").style.display = "none";
+    document.getElementById("ordersLink").style.display = "none"; // ✅ HIDE ORDERS
   }
 }
 
@@ -249,9 +243,10 @@ const offers=[
 ];
 
 let offerIndex=0;
+
 setInterval(()=>{
-offerIndex=(offerIndex+1)%offers.length;
-document.getElementById("offerText").innerText=offers[offerIndex];
+ offerIndex=(offerIndex+1)%offers.length;
+ document.getElementById("offerText").innerText=offers[offerIndex];
 },3000);
 
 /* HERO SLIDER */
@@ -262,81 +257,83 @@ const heroImages=[
 ];
 
 let heroIndex=0;
+
 function changeHero(){
-document.getElementById("hero").style.backgroundImage=
-`url(${heroImages[heroIndex]})`;
-heroIndex=(heroIndex+1)%heroImages.length;
+ document.getElementById("hero").style.backgroundImage=
+ `url(${heroImages[heroIndex]})`;
+ heroIndex=(heroIndex+1)%heroImages.length;
 }
+
 changeHero();
 setInterval(changeHero,4000);
 
 /* LOAD PAINTINGS */
 async function loadPaintings(){
-const res=await fetch("/api/paintings");
-const paintings=await res.json();
-const container=document.getElementById("paintingsContainer");
+ const res=await fetch("/api/paintings");
+ const paintings=await res.json();
+ const container=document.getElementById("paintingsContainer");
 
-container.innerHTML="";
+ container.innerHTML="";
 
-paintings.forEach(p=>{
-container.innerHTML+=`
-<div class="card">
-<img src="${p.image}" />
-<h3>${p.title}</h3>
-<p>₹ ${p.price}</p>
-<p>Stock: ${p.stock}</p>
+ paintings.forEach(p=>{
+  container.innerHTML+=`
+  <div class="card">
+  <img src="${p.image}" />
+  <h3>${p.title}</h3>
+  <p>₹ ${p.price}</p>
+  <p>Stock: ${p.stock}</p>
 
-<select id="size-${p._id}">
-${p.sizes.map(s=>`<option>${s}</option>`).join("")}
-</select>
+  <select id="size-${p._id}">
+  ${p.sizes.map(s=>`<option>${s}</option>`).join("")}
+  </select>
 
-<select id="frame-${p._id}">
-${p.framedOptions.map(f=>`<option>${f}</option>`).join("")}
-</select>
+  <select id="frame-${p._id}">
+  ${p.framedOptions.map(f=>`<option>${f}</option>`).join("")}
+  </select>
 
-<div>
-<span class="like" onclick="likePainting('${p._id}',this)">♥</span>
-</div>
+  <div>
+  <span class="like" onclick="likePainting('${p._id}',this)">♥</span>
+  </div>
 
-<button onclick="addToCart('${p._id}')">Add to Cart</button>
-</div>
-`;
-});
+  <button onclick="addToCart('${p._id}')">Add to Cart</button>
+  </div>
+  `;
+ });
 }
 
 loadPaintings();
 
 /* LIKE */
 async function likePainting(id,el){
-await fetch("/api/paintings/like/"+id,{method:"POST"});
-el.classList.toggle("active");
+ await fetch("/api/paintings/like/"+id,{method:"POST"});
+ el.classList.toggle("active");
 }
 
 /* CART */
 async function addToCart(id){
-const token=localStorage.getItem("token");
-if(!token){
-alert("Please login first");
-return;
-}
+ const token=localStorage.getItem("token");
+ if(!token){
+  alert("Please login first");
+  return;
+ }
 
-const size=document.getElementById("size-"+id).value;
-const framed=document.getElementById("frame-"+id).value;
+ const size=document.getElementById("size-"+id).value;
+ const framed=document.getElementById("frame-"+id).value;
 
-await fetch("/api/cart/add",{
-method:"POST",
-headers:{
-"Content-Type":"application/json",
-Authorization:token
-},
-body:JSON.stringify({
-paintingId:id,
-size:size,
-framed:framed
-})
-});
+ await fetch("/api/cart/add",{
+  method:"POST",
+  headers:{
+   "Content-Type":"application/json",
+   Authorization:token
+  },
+  body:JSON.stringify({
+   paintingId:id,
+   size:size,
+   framed:framed
+  })
+ });
 
-alert("Added to Cart!");
+ alert("Added to Cart!");
 }
 
 </script>
