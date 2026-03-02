@@ -74,9 +74,17 @@ body{
   gap:20px;
 }
 
-.icons{
-  display:flex;
-  gap:32px;
+.icons {
+  display: flex;
+  align-items: center;
+  gap: 28px;        /* spacing between icons */
+}
+
+.icons span {
+  display: inline-flex;
+  width: 22px;      /* makes all icons equal width */
+  justify-content: center;
+  cursor: pointer;
 }
 
 .hamburger{
