@@ -14,7 +14,7 @@
 
   <nav class="nav-links" id="navLinks">
     <a href="/">Home</a>
-    <a href="#gallery">Shop</a>
+    <a href="#shop">Shop</a>
     <a href="cart.html">Cart</a>
     <a href="orders.html">Orders</a>
     <a href="login.html" id="loginLink">Login</a>
@@ -26,33 +26,36 @@
 
 
 <section class="hero">
-  <div class="hero-content">
-    <h1>Crafted With Passion.</h1>
-    <p>Minimal handmade paintings for modern spaces.</p>
-    <a href="#gallery" class="btn-primary">Explore Collection</a>
+  <div class="hero-inner">
+    <h1>Modern Artistic Expression</h1>
+    <p>Curated minimal paintings crafted for contemporary spaces.</p>
+    <a href="#shop" class="primary-btn">Shop Collection</a>
   </div>
 </section>
 
 
-<section class="gallery-section" id="gallery">
-  <h2>Our Collection</h2>
-  <div class="paintings-grid" id="paintingsContainer"></div>
+<section class="shop-section" id="shop">
+  <div class="section-header">
+    <h2>Featured Works</h2>
+  </div>
+  <div class="product-grid" id="paintingsContainer"></div>
 </section>
 
 
 <footer class="footer">
-  © 2026 craftco.lab — All Rights Reserved
+  <div class="footer-inner">
+    <p>© 2026 craftco.lab — All rights reserved</p>
+  </div>
 </footer>
 
 
 <script>
 
-/* NAV TOGGLE */
+/* NAV */
 function toggleMenu(){
   document.getElementById("navLinks").classList.toggle("active");
 }
 
-/* LOGIN CHECK */
 function logout(){
   localStorage.removeItem("token");
   location.reload();
@@ -67,7 +70,7 @@ function checkLogin(){
 }
 checkLogin();
 
-/* LOAD PAINTINGS */
+/* LOAD PRODUCTS */
 async function loadPaintings(){
   const res = await fetch("/api/paintings");
   const paintings = await res.json();
@@ -76,14 +79,16 @@ async function loadPaintings(){
 
   paintings.forEach(p=>{
     container.innerHTML += `
-      <div class="card">
-        <img src="${p.image}" alt="${p.title}">
-        <div class="card-content">
+      <div class="product-card">
+        <div class="image-wrap">
+          <img src="${p.image}" alt="${p.title}">
+        </div>
+        <div class="product-info">
           <h3>${p.title}</h3>
           <p class="price">₹ ${p.price}</p>
-          <div class="card-actions">
+          <div class="product-actions">
             <button onclick="addToCart('${p._id}')">Add to Cart</button>
-            <span onclick="likePainting('${p._id}',this)">♥</span>
+            <span onclick="likePainting('${p._id}',this)">♡</span>
           </div>
         </div>
       </div>
@@ -112,7 +117,7 @@ async function addToCart(id){
     body:JSON.stringify({ paintingId:id })
   });
 
-  alert("Added to cart!");
+  alert("Added to cart");
 }
 
 loadPaintings();
