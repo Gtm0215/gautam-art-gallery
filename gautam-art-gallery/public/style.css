@@ -2,11 +2,11 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family: Arial, sans-serif;
+  font-family: "Helvetica Neue", Arial, sans-serif;
 }
 
 body{
-  background:#f8f8f8;
+  background:#ffffff;
   color:#111;
 }
 
@@ -15,30 +15,31 @@ body{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  padding:20px 60px;
-  background:white;
-  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+  padding:22px 8%;
+  background:#fff;
+  border-bottom:1px solid #eee;
   position:sticky;
   top:0;
   z-index:1000;
 }
 
 .logo{
-  font-size:22px;
+  font-size:20px;
   font-weight:600;
   letter-spacing:1px;
 }
 
 .nav-links a{
-  margin-left:25px;
+  margin-left:30px;
   text-decoration:none;
-  color:#222;
+  color:#111;
+  font-size:14px;
   font-weight:500;
   transition:0.3s;
 }
 
 .nav-links a:hover{
-  color:#e63946;
+  opacity:0.6;
 }
 
 .hamburger{
@@ -49,116 +50,148 @@ body{
 
 /* HERO */
 .hero{
-  height:85vh;
+  height:90vh;
   display:flex;
   align-items:center;
   justify-content:center;
   text-align:center;
-  background:#111;
-  color:white;
+  padding:0 20px;
+}
+
+.hero-inner{
+  max-width:800px;
 }
 
 .hero h1{
-  font-size:50px;
-  margin-bottom:20px;
+  font-size:60px;
+  font-weight:600;
+  margin-bottom:25px;
 }
 
 .hero p{
-  margin-bottom:30px;
   font-size:18px;
+  color:#666;
+  margin-bottom:35px;
 }
 
-.btn-primary{
-  padding:12px 30px;
-  background:#e63946;
-  color:white;
+.primary-btn{
+  padding:14px 36px;
+  background:#111;
+  color:#fff;
   text-decoration:none;
-  border-radius:30px;
-}
-
-/* GALLERY */
-.gallery-section{
-  padding:80px 8%;
-  text-align:center;
-}
-
-.gallery-section h2{
-  margin-bottom:50px;
-  font-size:32px;
-}
-
-.paintings-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-  gap:30px;
-}
-
-.card{
-  background:white;
-  border-radius:15px;
-  overflow:hidden;
-  box-shadow:0 10px 30px rgba(0,0,0,0.05);
+  font-size:14px;
+  border-radius:40px;
   transition:0.3s;
 }
 
-.card:hover{
-  transform:translateY(-8px);
+.primary-btn:hover{
+  background:#333;
 }
 
-.card img{
+/* SHOP */
+.shop-section{
+  padding:120px 8%;
+}
+
+.section-header{
+  margin-bottom:60px;
+}
+
+.section-header h2{
+  font-size:32px;
+  font-weight:600;
+}
+
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:50px;
+}
+
+.product-card{
+  transition:0.4s;
+}
+
+.image-wrap{
+  overflow:hidden;
+  border-radius:12px;
+}
+
+.image-wrap img{
   width:100%;
-  height:260px;
+  height:380px;
   object-fit:cover;
+  transition:0.6s;
 }
 
-.card-content{
-  padding:20px;
+.product-card:hover img{
+  transform:scale(1.05);
+}
+
+.product-info{
+  margin-top:18px;
+}
+
+.product-info h3{
+  font-size:18px;
+  font-weight:500;
 }
 
 .price{
-  color:#e63946;
-  font-weight:bold;
-  margin:10px 0;
+  margin:8px 0 15px;
+  font-size:15px;
+  color:#444;
 }
 
-.card-actions{
+.product-actions{
   display:flex;
   justify-content:space-between;
   align-items:center;
 }
 
-.card-actions button{
-  padding:8px 15px;
-  background:#111;
-  color:white;
+.product-actions button{
+  padding:10px 20px;
   border:none;
-  border-radius:20px;
+  background:#111;
+  color:#fff;
+  border-radius:30px;
+  font-size:13px;
   cursor:pointer;
+  transition:0.3s;
 }
 
-.card-actions span{
+.product-actions button:hover{
+  background:#333;
+}
+
+.product-actions span{
   font-size:20px;
   cursor:pointer;
+  transition:0.3s;
 }
 
 .liked{
-  color:red;
+  color:#000;
 }
 
 /* FOOTER */
 .footer{
-  padding:40px;
+  padding:60px 8%;
+  border-top:1px solid #eee;
   text-align:center;
-  background:#111;
-  color:white;
-  margin-top:80px;
+  font-size:13px;
+  color:#777;
 }
 
 /* RESPONSIVE */
 @media(max-width:768px){
 
-  .navbar{
-    padding:20px;
+  .hero h1{
+    font-size:38px;
+  }
+
+  .product-grid{
+    gap:30px;
   }
 
   .nav-links{
@@ -167,9 +200,9 @@ body{
     position:absolute;
     top:70px;
     right:20px;
-    background:white;
+    background:#fff;
     padding:20px;
-    box-shadow:0 5px 20px rgba(0,0,0,0.1);
+    box-shadow:0 10px 30px rgba(0,0,0,0.1);
   }
 
   .nav-links.active{
@@ -178,10 +211,6 @@ body{
 
   .hamburger{
     display:block;
-  }
-
-  .hero h1{
-    font-size:32px;
   }
 
 }
