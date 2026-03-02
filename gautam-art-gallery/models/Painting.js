@@ -4,10 +4,8 @@ const paintingSchema = new mongoose.Schema({
   title: String,
   description: String,
   price: Number,
-  image: String,
   stock: Number,
-  sizes: [String],
-  framedOptions: [String],
+  image: String,
   likes: { type: Number, default: 0 }
 });
 
