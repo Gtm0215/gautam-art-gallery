@@ -5,178 +5,17 @@
   <title>craftco.lab</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
 
-  <style>
-    *{
-      margin:0;
-      padding:0;
-      box-sizing:border-box;
-      font-family:'Poppins',sans-serif;
-    }
-
-    body{
-      background:#f6f6f6;
-    }
-
-    /* ================= MOVING TOP BAR ================= */
-
-    .top-bar{
-      width:100%;
-      background:#d85c57;
-      color:white;
-      overflow:hidden;
-      white-space:nowrap;
-      padding:10px 0;
-    }
-
-    .top-bar-track{
-      display:inline-block;
-      animation:scrollText 25s linear infinite;
-    }
-
-    .top-bar span{
-      margin:0 50px;
-      font-size:14px;
-      letter-spacing:1px;
-    }
-
-    @keyframes scrollText{
-      0%{transform:translateX(0);}
-      100%{transform:translateX(-50%);}
-    }
-
-    /* ================= NAVBAR ================= */
-
-    header{
-      background:white;
-      padding:20px 60px;
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      border-bottom:1px solid #eee;
-    }
-
-    .logo{
-      font-size:32px;
-      font-weight:500;
-      letter-spacing:2px;
-    }
-
-    nav{
-      display:flex;
-      gap:40px;
-    }
-
-    nav a{
-      text-decoration:none;
-      color:#333;
-      font-size:15px;
-    }
-
-    .icons{
-      display:flex;
-      gap:20px;
-      font-size:18px;
-    }
-
-    /* ================= HERO ================= */
-
-    .hero{
-      position:relative;
-      max-width:1400px;
-      margin:40px auto;
-      height:85vh;
-      border-radius:20px;
-      overflow:hidden;
-      background-image:url("/uploads/hero.png");
-      background-size:cover;
-      background-position:center;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      inset:0;
-      background:rgba(0,0,0,0.35);
-    }
-
-    .hero-content{
-      position:relative;
-      color:white;
-      text-align:center;
-      z-index:2;
-    }
-
-    .hero-content h1{
-      font-size:70px;
-      font-weight:300;
-      letter-spacing:4px;
-    }
-
-    .hero-content p{
-      margin-top:15px;
-      font-size:18px;
-    }
-
-    /* ================= RESPONSIVE ================= */
-
-    @media(max-width:1024px){
-      header{
-        padding:20px;
-      }
-
-      nav{
-        gap:20px;
-      }
-
-      .hero{
-        height:70vh;
-      }
-
-      .hero-content h1{
-        font-size:50px;
-      }
-    }
-
-    @media(max-width:768px){
-
-      header{
-        flex-direction:column;
-        gap:15px;
-      }
-
-      nav{
-        flex-wrap:wrap;
-        justify-content:center;
-      }
-
-      .hero{
-        height:60vh;
-        margin:20px;
-        border-radius:10px;
-      }
-
-      .hero-content h1{
-        font-size:32px;
-      }
-
-      .hero-content p{
-        font-size:14px;
-      }
-    }
-
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- MOVING NOTIFICATION BAR -->
+<!-- ================= TOP MOVING BAR ================= -->
 <div class="top-bar">
-  <div class="top-bar-track">
+  <div class="top-track">
     <span>Custom Paintings Available</span>
     <span>Free Shipping Above ₹999</span>
     <span>Limited Edition Art Drops</span>
@@ -186,11 +25,12 @@
   </div>
 </div>
 
-<!-- NAVBAR -->
-<header>
+<!-- ================= NAVBAR ================= -->
+<header class="navbar">
+
   <div class="logo">craftco.lab</div>
 
-  <nav>
+  <nav class="nav-links" id="navLinks">
     <a href="#">Categories</a>
     <a href="#">Store</a>
     <a href="#">Track Order</a>
@@ -200,15 +40,59 @@
   <div class="icons">
     🔍 👤 🤍 🛒
   </div>
+
+  <div class="hamburger" onclick="toggleMenu()">
+    ☰
+  </div>
+
 </header>
 
-<!-- HERO -->
+<!-- ================= HERO ================= -->
 <section class="hero">
+  <div class="hero-overlay"></div>
   <div class="hero-content">
     <h1>#ART COLLECTION</h1>
     <p>Handmade paintings & creative prints you'll love</p>
   </div>
 </section>
 
+<!-- ================= COLLECTION SECTION ================= -->
+<section class="collections">
+  <h2>Explore Our Collections</h2>
+
+  <div class="collection-grid">
+
+    <div class="collection-card">
+      <img src="/uploads/hero.png">
+      <span>Paintings</span>
+    </div>
+
+    <div class="collection-card">
+      <img src="/uploads/hero.png">
+      <span>Custom Paintings</span>
+    </div>
+
+    <div class="collection-card">
+      <img src="/uploads/hero.png">
+      <span>Bookmarks</span>
+    </div>
+
+    <div class="collection-card">
+      <img src="/uploads/hero.png">
+      <span>Postcards</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ================= FEATURED PRODUCTS ================= -->
+<section class="featured">
+  <h2>Featured Products</h2>
+
+  <div class="product-grid" id="productGrid">
+  </div>
+</section>
+
+<script src="script.js"></script>
 </body>
 </html>
