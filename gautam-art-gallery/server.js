@@ -11,6 +11,7 @@ const paintingRoutes = require("./routes/paintings");
 const authRoutes = require("./routes/auth");
 const cartRoutes = require("./routes/cart");
 const wishlistRoutes = require("./routes/wishlist");
+const orderRoutes = require("./routes/order");   // ✅ ADDED
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use("/api/paintings", paintingRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/orders", orderRoutes);   // ✅ ADDED
 
 /* ===============================
    ROOT ROUTE
