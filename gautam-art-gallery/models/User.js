@@ -5,7 +5,17 @@ const userSchema = new mongoose.Schema({
   email: { type: String, unique: true },
   password: String,
   role: { type: String, default: "user" },
-  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Painting" }]
+
+  wishlist: [{ type: mongoose.Schema.Types.ObjectId, ref: "Painting" }],
+
+  cart: [
+    {
+      painting: { type: mongoose.Schema.Types.ObjectId, ref: "Painting" },
+      quantity: { type: Number, default: 1 },
+      size: String,
+      framed: String
+    }
+  ]
 });
 
 module.exports = mongoose.model("User", userSchema);
