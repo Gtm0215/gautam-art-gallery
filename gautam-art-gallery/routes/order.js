@@ -9,41 +9,46 @@ const router = express.Router();
 /* PLACE ORDER */
 router.post("/place", auth, async (req, res) => {
   try {
-    const user = await User.findById(req.user.id).populate("cart.painting");
+
+    const user = await User.findById(req.user.id);
 
     if (!user || user.cart.length === 0) {
       return res.status(400).json({ message: "Cart is empty" });
     }
 
     let total = 0;
+    let orderItems = [];
 
-    const items = user.cart.map(item => {
-      total += item.painting.price;
+    for (let item of user.cart) {
 
-      return {
-        painting: item.painting._id,
+      const painting = await Painting.findById(item.painting);
+
+      if (!painting) continue;
+
+      total += painting.price;
+
+      orderItems.push({
+        painting: painting._id,
         quantity: 1,
         size: item.size,
         framed: item.framed,
-        price: item.painting.price
-      };
-    });
+        price: painting.price
+      });
+
+      /* DECREASE STOCK */
+      if (painting.stock > 0) {
+        painting.stock -= 1;
+        await painting.save();
+      }
+    }
 
     const order = new Order({
       user: user._id,
-      items,
+      items: orderItems,
       totalAmount: total
     });
 
     await order.save();
-
-    /* AUTO STOCK DECREASE */
-    for (let item of user.cart) {
-      await Painting.findByIdAndUpdate(
-        item.painting._id,
-        { $inc: { stock: -1 } }
-      );
-    }
 
     /* CLEAR CART */
     user.cart = [];
@@ -52,7 +57,7 @@ router.post("/place", auth, async (req, res) => {
     res.json({ success: true, order });
 
   } catch (error) {
-    console.log(error);
+    console.log("ORDER ERROR:", error);
     res.status(500).json({ message: "Server error" });
   }
 });
@@ -67,6 +72,7 @@ router.get("/my", auth, async (req, res) => {
 
 /* ADMIN VIEW ALL ORDERS */
 router.get("/all", auth, async (req, res) => {
+
   const user = await User.findById(req.user.id);
 
   if (user.role !== "admin") {
