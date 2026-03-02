@@ -5,10 +5,12 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
 
+/* ROUTES */
 const adminRoutes = require("./routes/admin");
 const paintingRoutes = require("./routes/paintings");
 const authRoutes = require("./routes/auth");
 const cartRoutes = require("./routes/cart");
+const wishlistRoutes = require("./routes/wishlist");
 
 const app = express();
 
@@ -20,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /* ===============================
-   STATIC FOLDER
+   STATIC FILES
 ================================= */
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -33,12 +35,13 @@ mongoose
   .catch((err) => console.log("MongoDB Error:", err));
 
 /* ===============================
-   ROUTES
+   API ROUTES
 ================================= */
 app.use("/api/admin", adminRoutes);
 app.use("/api/paintings", paintingRoutes);
 app.use("/api/auth", authRoutes);
 app.use("/api/cart", cartRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 /* ===============================
    ROOT ROUTE
