@@ -1,12 +1,19 @@
 async function loadHero() {
-  const res = await fetch("/api/paintings");
-  const data = await res.json();
+  try {
+    const res = await fetch("/api/paintings");
+    const data = await res.json();
 
-  const hero = data.find(p => p.isHero === true);
+    const hero = data.find(p => p.isHero === true);
 
-  if (hero) {
-    document.getElementById("heroSection").style.background =
-      `url(${hero.image}) center/cover no-repeat`;
+    if (hero) {
+      const heroSection = document.getElementById("heroSection");
+      heroSection.style.backgroundImage = `url(${hero.image})`;
+      heroSection.style.backgroundSize = "cover";
+      heroSection.style.backgroundPosition = "center";
+    }
+
+  } catch (err) {
+    console.log("Hero load error:", err);
   }
 }
 
