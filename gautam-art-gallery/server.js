@@ -1,62 +1,58 @@
-require("dotenv").config();
-
 const express = require("express");
 const mongoose = require("mongoose");
-const cors = require("cors");
 const path = require("path");
 
-/* ROUTES */
-const adminRoutes = require("./routes/admin");
-const paintingRoutes = require("./routes/paintings");
-const authRoutes = require("./routes/auth");
-const cartRoutes = require("./routes/cart");
-const wishlistRoutes = require("./routes/wishlist");
-const orderRoutes = require("./routes/order");   // ✅ ADDED
-
 const app = express();
+const PORT = process.env.PORT || 5000;
 
-/* ===============================
-   MIDDLEWARE
-================================= */
-app.use(cors());
+
+// ============================
+// MIDDLEWARE
+// ============================
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-/* ===============================
-   STATIC FILES
-================================= */
-app.use(express.static(path.join(__dirname, "public")));
+// Serve public folder
+app.use(express.static("public"));
+
+// Serve uploads folder
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
-/* ===============================
-   DATABASE CONNECTION
-================================= */
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB Connected ✅"))
-  .catch((err) => console.log("MongoDB Error:", err));
 
-/* ===============================
-   API ROUTES
-================================= */
-app.use("/api/admin", adminRoutes);
+
+// ============================
+// DATABASE CONNECTION
+// ============================
+
+mongoose.connect(process.env.MONGO_URI || "YOUR_MONGODB_CONNECTION_STRING")
+.then(() => console.log("MongoDB Connected"))
+.catch(err => console.log(err));
+
+
+// ============================
+// ROUTES
+// ============================
+
+const paintingRoutes = require("./routes/paintings");
+const categoryRoutes = require("./routes/categories");
+
 app.use("/api/paintings", paintingRoutes);
-app.use("/api/auth", authRoutes);
-app.use("/api/cart", cartRoutes);
-app.use("/api/wishlist", wishlistRoutes);
-app.use("/api/orders", orderRoutes);   // ✅ ADDED
+app.use("/api/categories", categoryRoutes);
 
-/* ===============================
-   ROOT ROUTE
-================================= */
+
+// ============================
+// DEFAULT ROUTE
+// ============================
+
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
-/* ===============================
-   START SERVER
-================================= */
-const PORT = process.env.PORT || 5000;
+
+// ============================
+// START SERVER
+// ============================
 
 app.listen(PORT, () => {
-  console.log("Server running on port", PORT);
+  console.log(`Server running on port ${PORT}`);
 });
