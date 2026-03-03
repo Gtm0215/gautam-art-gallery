@@ -7,12 +7,7 @@ const paintingSchema = new mongoose.Schema({
   stock: Number,
   image: String,
   likes: { type: Number, default: 0 },
-
-  // NEW FIELDS
-  isFeatured: { type: Boolean, default: false },
-  isHero: { type: Boolean, default: false },
-  section: { type: String, default: "featured" } 
-  // values: hero, explore, featured
-});
+  isHero: { type: Boolean, default: false }
+}, { timestamps: true });
 
 module.exports = mongoose.model("Painting", paintingSchema);
