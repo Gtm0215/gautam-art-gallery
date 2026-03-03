@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Admin Panel - craftco.lab</title>
-  <meta charset="UTF-8" />
+
   <style>
     body {
       font-family: Arial, sans-serif;
       padding: 40px;
-      background: #f5f2f2;
+      background: #f6f2f2;
     }
 
     h1 {
@@ -26,7 +27,7 @@
       margin-bottom: 30px;
     }
 
-    input, select {
+    input {
       display: block;
       width: 100%;
       padding: 10px;
@@ -38,8 +39,8 @@
       background: #d35d5d;
       color: white;
       border: none;
-      cursor: pointer;
       border-radius: 6px;
+      cursor: pointer;
     }
 
     button:hover {
@@ -65,7 +66,35 @@
 
 <h1>Admin Panel - craftco.lab</h1>
 
-<!-- ================= CATEGORY SECTION ================= -->
+<!-- ================= ADD PAINTING ================= -->
+
+<h2>Add Painting</h2>
+
+<form id="paintingForm" enctype="multipart/form-data">
+
+  <input type="text" name="title" placeholder="Title" required>
+
+  <input type="text" name="description" placeholder="Description" required>
+
+  <input type="number" name="price" placeholder="Price" required>
+
+  <input type="number" name="stock" placeholder="Stock" required>
+
+  <input type="file" name="image" required>
+
+  <label style="margin-bottom:15px;">
+    <input type="checkbox" name="isHero" value="true">
+    Set as Hero Image
+  </label>
+
+  <button type="submit">Add Painting</button>
+
+</form>
+
+<h2>All Paintings</h2>
+<div id="paintingList"></div>
+
+<!-- ================= ADD CATEGORY ================= -->
 
 <h2>Add Category</h2>
 
@@ -79,25 +108,54 @@
 <h2>All Categories</h2>
 <div id="categoryList"></div>
 
+<script>
 
-<!-- ================= PAINTING SECTION ================= -->
+/* ================= PAINTING FUNCTIONS ================= */
 
-<h2>Add Painting</h2>
+async function loadPaintings() {
+  const res = await fetch("/api/paintings");
+  const data = await res.json();
 
-<form id="paintingForm" enctype="multipart/form-data">
-  <input type="text" name="title" placeholder="Title" required>
-  <input type="text" name="description" placeholder="Description" required>
-  <input type="number" name="price" placeholder="Price" required>
-  <input type="number" name="stock" placeholder="Stock" required>
-  <input type="file" name="image" required>
+  const list = document.getElementById("paintingList");
+  list.innerHTML = "";
 
-  <label>
-    <input type="checkbox" name="isHero" value="true">
-    Set as Hero Image
-  </label>
+  data.forEach(p => {
+    list.innerHTML += `
+      <div class="card">
+        <img src="${p.image}">
+        <p><strong>${p.title}</strong></p>
+        <p>₹${p.price}</p>
+        <p>${p.isHero ? "⭐ HERO IMAGE" : ""}</p>
+        <button onclick="deletePainting('${p._id}')">Delete</button>
+      </div>
+    `;
+  });
+}
 
-  <button type="submit">Add Painting</button>
-</form>
+document.getElementById("paintingForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const formData = new FormData(e.target);
+
+  await fetch("/api/paintings", {
+    method: "POST",
+    body: formData
+  });
+
+  alert("Painting Added Successfully!");
+  e.target.reset();
+  loadPaintings();
+});
+
+async function deletePainting(id) {
+  await fetch("/api/paintings/" + id, {
+    method: "DELETE"
+  });
+
+  loadPaintings();
+}
+
+
 /* ================= CATEGORY FUNCTIONS ================= */
 
 async function loadCategories() {
@@ -121,6 +179,7 @@ async function loadCategories() {
 
 document.getElementById("categoryForm").addEventListener("submit", async (e) => {
   e.preventDefault();
+
   const formData = new FormData(e.target);
 
   await fetch("/api/categories", {
@@ -128,6 +187,7 @@ document.getElementById("categoryForm").addEventListener("submit", async (e) => 
     body: formData
   });
 
+  alert("Category Added!");
   e.target.reset();
   loadCategories();
 });
@@ -141,44 +201,11 @@ async function deleteCategory(id) {
 }
 
 
-/* ================= PAINTING FUNCTIONS ================= */
-
-async function loadPaintings() {
-  const res = await fetch("/api/paintings");
-  const data = await res.json();
-
-  const list = document.getElementById("paintingList");
-  list.innerHTML = "";
-
-  data.forEach(p => {
-    list.innerHTML += `
-      <div class="card">
-        <img src="${p.image}">
-        <p><strong>${p.title}</strong></p>
-        <p>₹${p.price}</p>
-      </div>
-    `;
-  });
-}
-
-document.getElementById("paintingForm").addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(e.target);
-
-  await fetch("/api/paintings", {
-    method: "POST",
-    body: formData
-  });
-
-  e.target.reset();
-  loadPaintings();
-});
-
-
 /* ================= INIT LOAD ================= */
 
-loadCategories();
 loadPaintings();
+loadCategories();
+
 </script>
 
 </body>
