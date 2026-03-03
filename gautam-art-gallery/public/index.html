@@ -99,10 +99,38 @@
 </section>
 
 <!-- EXPLORE -->
-<section class="explore-section">
-  <h2>Explore Our Collections</h2>
+<section class="explore">
+  <div class="container">
+    <h2 class="section-title">Explore Our Collections</h2>
 
-  <div id="categoryContainer" class="category-grid">
+    <div id="categoryContainer" class="category-grid"></div>
+  </div>
+</section>
+
+<script>
+async function loadCategories() {
+  const res = await fetch("/api/categories");
+  const categories = await res.json();
+
+  const container = document.getElementById("categoryContainer");
+  container.innerHTML = "";
+
+  categories.sort((a, b) => a.position - b.position);
+
+  categories.forEach(cat => {
+    container.innerHTML += `
+      <div class="category-card">
+        <img src="${cat.image}" alt="${cat.name}">
+        <div class="category-overlay">
+          <h3>${cat.name}</h3>
+        </div>
+      </div>
+    `;
+  });
+}
+
+loadCategories();
+</script>
     <!-- Categories will load here -->
   </div>
 </section>
