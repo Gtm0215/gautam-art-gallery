@@ -6,32 +6,32 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 
 
-// ============================
+// ===============================
 // MIDDLEWARE
-// ============================
+// ===============================
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve public folder
-app.use(express.static("public"));
+// Serve static public folder
+app.use(express.static(path.join(__dirname, "public")));
 
-// Serve uploads folder
+// Serve uploaded images
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
 
 
-// ============================
-// DATABASE CONNECTION
-// ============================
+// ===============================
+// MONGODB CONNECTION
+// ===============================
 
-mongoose.connect(process.env.MONGO_URI || "YOUR_MONGODB_CONNECTION_STRING")
+mongoose.connect(process.env.MONGO_URI)
 .then(() => console.log("MongoDB Connected"))
-.catch(err => console.log(err));
+.catch(err => console.log("Mongo Error:", err));
 
 
-// ============================
+// ===============================
 // ROUTES
-// ============================
+// ===============================
 
 const paintingRoutes = require("./routes/paintings");
 const categoryRoutes = require("./routes/categories");
@@ -40,18 +40,18 @@ app.use("/api/paintings", paintingRoutes);
 app.use("/api/categories", categoryRoutes);
 
 
-// ============================
+// ===============================
 // DEFAULT ROUTE
-// ============================
+// ===============================
 
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
 
 
-// ============================
+// ===============================
 // START SERVER
-// ============================
+// ===============================
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
