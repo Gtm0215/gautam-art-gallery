@@ -90,14 +90,14 @@
   <input type="number" name="price" placeholder="Price" required>
   <input type="number" name="stock" placeholder="Stock" required>
   <input type="file" name="image" required>
+
+  <label>
+    <input type="checkbox" name="isHero" value="true">
+    Set as Hero Image
+  </label>
+
   <button type="submit">Add Painting</button>
 </form>
-
-<h2>All Paintings</h2>
-<div id="paintingList"></div>
-
-
-<script>
 /* ================= CATEGORY FUNCTIONS ================= */
 
 async function loadCategories() {
