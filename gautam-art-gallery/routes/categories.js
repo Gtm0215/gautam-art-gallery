@@ -1,8 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
-const path = require("path");
 const Category = require("../models/Category");
+const path = require("path");
+
+
+// ================= UPLOAD CONFIG =================
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -13,28 +16,58 @@ const storage = multer.diskStorage({
   }
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 
-// GET ALL CATEGORIES
+// ================= GET ALL =================
+
 router.get("/", async (req, res) => {
   const categories = await Category.find().sort({ position: 1 });
   res.json(categories);
 });
 
 
-// UPDATE CATEGORY IMAGE
-router.put("/:id", upload.single("image"), async (req, res) => {
-  try {
-    await Category.findByIdAndUpdate(req.params.id, {
-      image: "/uploads/" + req.file.filename
-    });
+// ================= ADD CATEGORY =================
 
-    res.json({ success: true });
+router.post("/", upload.single("image"), async (req, res) => {
+  const { name, position } = req.body;
 
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+  const newCategory = new Category({
+    name,
+    position,
+    image: "/uploads/" + req.file.filename
+  });
+
+  await newCategory.save();
+  res.json({ message: "Category Added" });
 });
+
+
+// ================= UPDATE CATEGORY =================
+
+router.put("/:id", upload.single("image"), async (req, res) => {
+  const { name, position } = req.body;
+
+  const updateData = {
+    name,
+    position
+  };
+
+  if (req.file) {
+    updateData.image = "/uploads/" + req.file.filename;
+  }
+
+  await Category.findByIdAndUpdate(req.params.id, updateData);
+  res.json({ message: "Category Updated" });
+});
+
+
+// ================= DELETE CATEGORY =================
+
+router.delete("/:id", async (req, res) => {
+  await Category.findByIdAndDelete(req.params.id);
+  res.json({ message: "Category Deleted" });
+});
+
 
 module.exports = router;
