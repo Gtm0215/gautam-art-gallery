@@ -27,9 +27,36 @@ router.get("/", async (req, res) => {
 // ================= ADD PAINTING =================
 
 router.post("/", upload.single("image"), async (req, res) => {
+  try {
 
-  const { title, description, price, stock, isHero } = req.body;
+    const { title, description, price, stock } = req.body;
 
+    // Convert checkbox properly
+    const isHeroSelected = req.body.isHero === "true";
+
+    // 🔥 If hero selected → remove ALL old heroes first
+    if (isHeroSelected) {
+      await Painting.updateMany({ isHero: true }, { isHero: false });
+    }
+
+    const newPainting = new Painting({
+      title,
+      description,
+      price,
+      stock,
+      image: "/uploads/" + req.file.filename,
+      isHero: isHeroSelected
+    });
+
+    await newPainting.save();
+
+    res.json({ success: true, message: "Painting Added" });
+
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ success: false });
+  }
+});
   // If new hero selected → remove old hero
   if (isHero === "true") {
     await Painting.updateMany({}, { isHero: false });
