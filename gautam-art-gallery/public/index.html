@@ -99,10 +99,43 @@
 </section>
 
 <!-- EXPLORE -->
-<section class="explore">
+<section class="explore-section">
   <h2>Explore Our Collections</h2>
-  <div class="explore-grid" id="exploreGrid"></div>
+
+  <div id="categoryContainer" class="category-grid">
+    <!-- Categories will load here -->
+  </div>
 </section>
+
+<script>
+async function loadCategories() {
+  try {
+    const res = await fetch("/api/categories");
+    const categories = await res.json();
+
+    const container = document.getElementById("categoryContainer");
+    container.innerHTML = "";
+
+    categories.sort((a, b) => a.position - b.position);
+
+    categories.forEach(cat => {
+      container.innerHTML += `
+        <div class="category-card">
+          <img src="${cat.image}" alt="${cat.name}">
+          <div class="overlay">
+            <h3>${cat.name}</h3>
+          </div>
+        </div>
+      `;
+    });
+
+  } catch (err) {
+    console.error("Error loading categories:", err);
+  }
+}
+
+loadCategories();
+</script>
 
 <!-- FEATURED -->
 <section class="featured">
