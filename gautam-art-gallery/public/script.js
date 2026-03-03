@@ -1,26 +1,49 @@
-function toggleMenu(){
-  document.getElementById("navLinks").classList.toggle("active");
-}
+async function loadHome() {
 
-async function loadProducts(){
   const res = await fetch("/api/paintings");
-  const products = await res.json();
+  const data = await res.json();
 
-  const grid = document.getElementById("productGrid");
-  grid.innerHTML = "";
+  const heroSection = document.getElementById("heroSection");
+  const exploreGrid = document.getElementById("exploreGrid");
+  const productGrid = document.getElementById("productGrid");
 
-  products.forEach(p=>{
-    grid.innerHTML += `
-      <div class="product-card">
-        <img src="${p.image}">
-        <div class="product-info">
-          <h3>${p.title}</h3>
-          <div class="price">₹${p.price}</div>
-          <button class="btn">Add to Cart</button>
+  exploreGrid.innerHTML = "";
+  productGrid.innerHTML = "";
+
+  data.forEach(item => {
+
+    // HERO
+    if(item.isHero){
+      heroSection.style.background =
+        `url(${item.image}) center/cover no-repeat`;
+    }
+
+    // EXPLORE
+    if(item.section === "explore"){
+      exploreGrid.innerHTML += `
+        <div class="explore-card">
+          <img src="${item.image}">
+          <span>${item.title}</span>
         </div>
-      </div>
-    `;
+      `;
+    }
+
+    // FEATURED
+    if(item.section === "featured"){
+      productGrid.innerHTML += `
+        <div class="product-card">
+          <img src="${item.image}">
+          <div class="product-info">
+            <h3>${item.title}</h3>
+            <div class="price">₹${item.price}</div>
+            <button class="btn">Add to Cart</button>
+          </div>
+        </div>
+      `;
+    }
+
   });
+
 }
 
-loadProducts();
+loadHome();
