@@ -108,7 +108,19 @@ body{
       <path d="M1 1h4l2 13h11l2-8H6" stroke="currentColor" stroke-width="1.5" fill="none"/>
     </svg>
   </a>
+/* FIX SVG ICON SIZE */
+.icon{
+  width:22px !important;
+  height:22px !important;
+  display:inline-block;
+}
 
+.icons{
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  gap:40px;
+}
 </div>
 
 .hamburger{
