@@ -1,100 +1,178 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Admin Dashboard</title>
+  <title>Admin Panel - craftco.lab</title>
+  <meta charset="UTF-8">
   <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #f6f6f6;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+    }
+
+    form {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      margin-bottom: 40px;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      padding: 10px 20px;
+      background: #d45b5b;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #b74444;
+    }
+
+    .painting-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+      gap: 20px;
+    }
+
+    .painting-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+
+    .painting-card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .section-tag {
+      font-size: 12px;
+      color: white;
+      background: #333;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-block;
+      margin-top: 5px;
+    }
+  </style>
 </head>
+
 <body>
 
-<nav>
-  <a href="index.html">Home</a>
-  <a href="gallery.html">Gallery</a>
-</nav>
+<h1>Admin Panel - craftco.lab</h1>
 
-<h1 style="text-align:center;">Admin Dashboard</h1>
+<form id="paintingForm">
+  <input type="text" id="title" placeholder="Title" required>
+  <textarea id="description" placeholder="Description"></textarea>
+  <input type="number" id="price" placeholder="Price" required>
+  <input type="number" id="stock" placeholder="Stock" required>
+  <input type="file" id="image" required>
 
-<div style="max-width:400px;margin:auto;">
+  <select id="section">
+    <option value="featured">Featured Section</option>
+    <option value="explore">Explore Section</option>
+    <option value="hero">Hero Section</option>
+  </select>
 
-  <!-- LOGIN -->
-  <input id="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-  <button onclick="login()">Login</button>
+  <label>
+    <input type="checkbox" id="isFeatured">
+    Mark as Featured
+  </label>
 
-  <hr>
+  <label>
+    <input type="checkbox" id="isHero">
+    Mark as Hero Image
+  </label>
 
-  <!-- ADD PAINTING -->
-  <input id="title" placeholder="Title">
-  <input id="description" placeholder="Description">
-  <input id="price" placeholder="Price">
-  <input id="stock" placeholder="Stock">
-  <input type="file" id="image">
-  <button onclick="addPainting()">Add Painting</button>
+  <button type="button" onclick="addPainting()">Add Painting</button>
+</form>
 
-</div>
+<h2>All Paintings</h2>
+<div class="painting-list" id="paintingList"></div>
 
 <script>
-
-async function login() {
-  const res = await fetch("/api/admin/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      email: document.getElementById("email").value,
-      password: document.getElementById("password").value
-    })
-  });
-
-  const data = await res.json();
-
-  if (data.success) {
-    localStorage.setItem("token", data.token);
-    alert("Login Successful!");
-  } else {
-    alert("Invalid credentials");
-  }
-}
-
 async function addPainting() {
-  const token = localStorage.getItem("token");
-
-  if (!token) {
-    alert("Please login first");
-    return;
-  }
 
   const formData = new FormData();
+
   formData.append("title", document.getElementById("title").value);
   formData.append("description", document.getElementById("description").value);
   formData.append("price", document.getElementById("price").value);
   formData.append("stock", document.getElementById("stock").value);
   formData.append("image", document.getElementById("image").files[0]);
+  formData.append("section", document.getElementById("section").value);
+  formData.append("isFeatured", document.getElementById("isFeatured").checked);
+  formData.append("isHero", document.getElementById("isHero").checked);
 
-  try {
-    const res = await fetch("/api/paintings/add", {
-      method: "POST",
-      headers: {
-        Authorization: token
-      },
-      body: formData
-    });
+  const res = await fetch("/api/paintings/add", {
+    method: "POST",
+    body: formData
+  });
 
-    const data = await res.json();
+  const data = await res.json();
 
-    console.log(data);
-
-    if (data.success) {
-      alert("Painting Added Successfully!");
-      location.reload();
-    } else {
-      alert(data.message || "Error adding painting");
-    }
-
-  } catch (err) {
-    console.error(err);
-    alert("Upload failed");
+  if(data.success){
+    alert("Painting Added!");
+    location.reload();
+  } else {
+    alert("Error adding painting");
   }
 }
 
+
+// LOAD ALL PAINTINGS
+async function loadPaintings(){
+  const res = await fetch("/api/paintings");
+  const data = await res.json();
+
+  const paintingList = document.getElementById("paintingList");
+  paintingList.innerHTML = "";
+
+  data.forEach(item => {
+    paintingList.innerHTML += `
+      <div class="painting-card">
+        <img src="${item.image}">
+        <h3>${item.title}</h3>
+        <p>₹${item.price}</p>
+        <div class="section-tag">${item.section}</div>
+        <br><br>
+        <button onclick="deletePainting('${item._id}')">Delete</button>
+      </div>
+    `;
+  });
+}
+
+
+// DELETE
+async function deletePainting(id){
+  if(confirm("Delete this painting?")){
+    await fetch("/api/paintings/delete/" + id, {
+      method: "DELETE"
+    });
+    loadPaintings();
+  }
+}
+
+loadPaintings();
 </script>
 
 </body>
