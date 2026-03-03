@@ -112,31 +112,41 @@
 <script>
 async function addPainting() {
 
-  const formData = new FormData();
+  const token = localStorage.getItem("token");
+  if (!token) {
+    alert("Login first");
+    return;
+  }
 
+  const formData = new FormData();
   formData.append("title", document.getElementById("title").value);
   formData.append("description", document.getElementById("description").value);
   formData.append("price", document.getElementById("price").value);
   formData.append("stock", document.getElementById("stock").value);
   formData.append("image", document.getElementById("image").files[0]);
+
   formData.append("section", document.getElementById("section").value);
   formData.append("isFeatured", document.getElementById("isFeatured").checked);
   formData.append("isHero", document.getElementById("isHero").checked);
 
   const res = await fetch("/api/paintings/add", {
     method: "POST",
+    headers: {
+      Authorization: token
+    },
     body: formData
   });
 
   const data = await res.json();
 
-  if(data.success){
+  if (data.success) {
     alert("Painting Added!");
     location.reload();
   } else {
-    alert("Error adding painting");
+    alert("Error");
   }
 }
+</script>
 
 
 // LOAD ALL PAINTINGS
