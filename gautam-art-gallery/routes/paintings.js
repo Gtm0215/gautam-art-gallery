@@ -1,55 +1,56 @@
 const express = require("express");
 const router = express.Router();
 const multer = require("multer");
+const path = require("path");
 const Painting = require("../models/Painting");
-const authMiddleware = require("../middleware/auth");
 
-/* ===============================
-   IMAGE STORAGE (FIXED VERSION)
-================================= */
+
+// ============================
+// MULTER CONFIG (IMAGE UPLOAD)
+// ============================
+
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     cb(null, "public/uploads/");
   },
   filename: function (req, file, cb) {
-
-    // CLEAN FILE NAME (REMOVE SPACES + SPECIAL CHARACTERS)
-    const cleanName = file.originalname
-      .replace(/\s+/g, "-")          // replace spaces with dash
-      .replace(/[^\w.-]/g, "");      // remove weird characters
-
-    cb(null, Date.now() + "-" + cleanName);
+    cb(null, Date.now() + path.extname(file.originalname));
   }
 });
 
-const upload = multer({ storage });
+const upload = multer({ storage: storage });
 
-/* ===============================
-   GET ALL PAINTINGS
-================================= */
+
+// ============================
+// GET ALL PAINTINGS
+// ============================
+
 router.get("/", async (req, res) => {
   try {
-    const paintings = await Painting.find();
+    const paintings = await Painting.find().sort({ createdAt: -1 });
     res.json(paintings);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ error: err.message });
   }
 });
 
-/* ===============================
-   ADD PAINTING (ADMIN ONLY)
-================================= */
-router.post("/add", authMiddleware, upload.single("image"), async (req, res) => {
+
+// ============================
+// ADD NEW PAINTING
+// ============================
+
+router.post("/add", upload.single("image"), async (req, res) => {
   try {
-    if (req.user.role !== "admin") {
-      return res.status(403).json({ message: "Admin only" });
-    }
 
-    if (!req.file) {
-      return res.status(400).json({ message: "Image required" });
-    }
-
-    const { title, description, price, stock } = req.body;
+    const {
+      title,
+      description,
+      price,
+      stock,
+      isFeatured,
+      isHero,
+      section
+    } = req.body;
 
     const newPainting = new Painting({
       title,
@@ -57,84 +58,73 @@ router.post("/add", authMiddleware, upload.single("image"), async (req, res) => 
       price: Number(price),
       stock: Number(stock),
       image: "/uploads/" + req.file.filename,
-      likes: 0
+      likes: 0,
+      isFeatured: isFeatured === "true",
+      isHero: isHero === "true",
+      section: section || "featured"
     });
 
     await newPainting.save();
 
-    res.json({ success: true, painting: newPainting });
+    res.json({
+      success: true,
+      message: "Painting added successfully"
+    });
 
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
   }
 });
 
-/* ===============================
-   EDIT PAINTING (ADMIN ONLY)
-================================= */
-router.put("/edit/:id", authMiddleware, async (req, res) => {
-  try {
-    if (req.user.role !== "admin") {
-      return res.status(403).json({ message: "Admin only" });
-    }
 
-    const { title, description, price, stock } = req.body;
+// ============================
+// DELETE PAINTING
+// ============================
+
+router.delete("/delete/:id", async (req, res) => {
+  try {
+    await Painting.findByIdAndDelete(req.params.id);
+
+    res.json({
+      success: true,
+      message: "Painting deleted"
+    });
+
+  } catch (err) {
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
+  }
+});
+
+
+// ============================
+// UPDATE PAINTING
+// ============================
+
+router.put("/update/:id", async (req, res) => {
+  try {
 
     const updated = await Painting.findByIdAndUpdate(
       req.params.id,
-      {
-        title,
-        description,
-        price: Number(price),
-        stock: Number(stock)
-      },
+      req.body,
       { new: true }
     );
 
-    res.json({ success: true, painting: updated });
+    res.json({
+      success: true,
+      updated
+    });
 
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-/* ===============================
-   DELETE PAINTING (ADMIN ONLY)
-================================= */
-router.delete("/delete/:id", authMiddleware, async (req, res) => {
-  try {
-    if (req.user.role !== "admin") {
-      return res.status(403).json({ message: "Admin only" });
-    }
-
-    await Painting.findByIdAndDelete(req.params.id);
-
-    res.json({ success: true });
-
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-/* ===============================
-   LIKE PAINTING
-================================= */
-router.post("/like/:id", async (req, res) => {
-  try {
-    const painting = await Painting.findById(req.params.id);
-
-    if (!painting) {
-      return res.status(404).json({ message: "Painting not found" });
-    }
-
-    painting.likes += 1;
-    await painting.save();
-
-    res.json({ success: true, likes: painting.likes });
-
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({
+      success: false,
+      error: err.message
+    });
   }
 });
 
