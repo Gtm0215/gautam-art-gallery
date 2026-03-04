@@ -71,7 +71,8 @@ router.get("/hero", async (req, res) => {
 
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-
+const { title, description, price, stock, isFeatured } = req.body;
+const heroValue = req.body.isHero === "true";
     const { title, description, price, stock, isHero } = req.body;
 
     let heroValue = false;
