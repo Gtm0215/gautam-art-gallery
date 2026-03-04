@@ -8,6 +8,7 @@ const paintingSchema = new mongoose.Schema({
   image: String,
   likes: { type: Number, default: 0 },
   isHero: { type: Boolean, default: false }
+  isFeatured: { type: Boolean, default: false },
 }, { timestamps: true });
 
 module.exports = mongoose.model("Painting", paintingSchema);
