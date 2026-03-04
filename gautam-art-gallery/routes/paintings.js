@@ -81,32 +81,27 @@ router.post("/", upload.single("image"), async (req, res) => {
       heroValue = true;
 
       // Remove previous hero
-      await Painting.updateMany({}, { isHero: false });
+     await Painting.updateMany({}, { isHero: false });
+}
 
-    }
-
-    const newPainting = new Painting({
-      title,
-      description,
-      price,
-      stock,
-      image: "/uploads/" + req.file.filename,
-      isHero: heroValue
-       isFeatured:isFeatured==="true"
-    });
-
-    await newPainting.save();
-
-    res.json({ message: "Painting added successfully" });
-
-  } catch (error) {
-
-    res.status(500).json({ error: error.message });
-
-  }
+const newPainting = new Painting({
+ title,
+ description,
+ price,
+ stock,
+ image: "/uploads/" + req.file.filename,
+ isHero: heroValue,
+ isFeatured: isFeatured === "true"
 });
 
+await newPainting.save();
 
+res.json({ message: "Painting added successfully" });
+
+} catch (error) {
+ res.status(500).json({ error: error.message });
+}
+});
 /* =============================
    DELETE PAINTING
 ============================= */
