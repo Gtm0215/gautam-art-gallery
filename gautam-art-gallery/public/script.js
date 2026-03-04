@@ -52,3 +52,37 @@ container.innerHTML += `
 }
 
 loadFeaturedProducts()
+async function loadFeaturedProducts(){
+
+const res = await fetch("/api/paintings/featured")
+const products = await res.json()
+
+const container = document.getElementById("featuredProducts")
+
+if(!container) return
+
+container.innerHTML = ""
+
+products.forEach(p=>{
+
+container.innerHTML += `
+<div class="product-card">
+
+<img src="${p.image}" alt="${p.title}">
+
+<h3>${p.title}</h3>
+
+<p>₹${p.price}</p>
+
+<button onclick="addToCart('${p._id}')">Add to Cart</button>
+
+<button onclick="buyNow('${p._id}')">Buy Now</button>
+
+</div>
+`
+
+})
+
+}
+
+loadFeaturedProducts()
