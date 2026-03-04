@@ -38,7 +38,13 @@ router.get("/", async (req, res) => {
 
   }
 });
+router.get("/featured", async (req,res)=>{
 
+const products = await Painting.find({isFeatured:true})
+
+res.json(products)
+
+})
 
 /* =============================
    GET HERO PAINTING
