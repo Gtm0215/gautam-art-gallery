@@ -86,6 +86,7 @@ router.post("/", upload.single("image"), async (req, res) => {
       stock,
       image: "/uploads/" + req.file.filename,
       isHero: heroValue
+       isFeatured:isFeatured==="true"
     });
 
     await newPainting.save();
