@@ -1,4 +1,45 @@
-*{
+/* OFFER BAR */
+
+.offer-bar{
+background:#e46a6a;
+color:white;
+text-align:center;
+padding:8px;
+font-size:14px;
+letter-spacing:1px;
+}
+
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:20px 40px;
+background:white;
+}
+
+.logo{
+font-size:24px;
+font-weight:600;
+font-family:"Playfair Display", serif;
+}
+
+.nav-icons{
+display:flex;
+gap:28px;
+font-size:22px;
+cursor:pointer;
+}
+
+.icon{
+transition:0.3s;
+}
+
+.icon:hover{
+transform:scale(1.2);
+}*{
 margin:0;
 padding:0;
 box-sizing:border-box;
