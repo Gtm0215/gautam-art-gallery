@@ -1,171 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>craftco.lab</title>
 
-<!-- Google Font -->
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Poppins:wght@300;400;500&display=swap" rel="stylesheet">
+<title>CraftCo Art Gallery</title>
 
 <link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500&family=Playfair+Display:wght@500;600&display=swap" rel="stylesheet">
+
 </head>
 
 <body>
 
-<!-- ================= HEADER ================= -->
 
-<header class="header">
+<!-- HERO SECTION -->
 
-  <!-- Moving Top Bar -->
-  <div class="top-bar">
-    <div class="marquee">
-      <span>
-        Limited Edition Art Drops  |  
-        Custom Paintings Available  |  
-        Free Shipping Above ₹999  |  
-        Limited Edition Art Drops  |  
-        Custom Paintings Available  |  
-        Free Shipping Above ₹999
-      </span>
-    </div>
-  </div>
+<section class="hero">
 
-  <!-- Navbar -->
-  <div class="nav-container">
+<img src="/uploads/hero.png">
 
-    <div></div>
+<div class="hero-text">
+<h1>#ART COLLECTION</h1>
+<p>Handmade paintings & creative prints you'll love</p>
+</div>
 
-    <!-- Logo -->
-    <div class="logo">
-      craftco.lab
-    </div>
-
-    <!-- Icons -->
-    <div class="icons">
-
-      <!-- Search -->
-      <a href="#">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="11" cy="11" r="8"/>
-          <line x1="21" y1="21" x2="16.65" y2="16.65"/>
-        </svg>
-      </a>
-
-      <!-- User -->
-      <a href="login.html">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          <circle cx="12" cy="7" r="4"/>
-        </svg>
-      </a>
-
-      <!-- Wishlist -->
-      <a href="#">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M20.8 4.6c-1.4-1.4-3.7-1.4-5.1 0L12 8.3l-3.7-3.7c-1.4-1.4-3.7-1.4-5.1 0-1.4 1.4-1.4 3.7 0 5.1L12 21l8.8-11.3c1.4-1.4 1.4-3.7 0-5.1z"/>
-        </svg>
-      </a>
-
-      <!-- Cart -->
-      <a href="cart.html">
-        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <circle cx="9" cy="21" r="1"/>
-          <circle cx="20" cy="21" r="1"/>
-          <path d="M1 1h4l2.7 13.4a2 2 0 0 0 2 1.6h9.6a2 2 0 0 0 2-1.6L23 6H6"/>
-        </svg>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- Menu -->
-  <div class="menu">
-    <a href="#">Categories</a>
-    <a href="gallery.html">Store</a>
-    <a href="orders.html">Track Order</a>
-    <a href="contact.html">Contact Us</a>
-  </div>
-
-</header>
-
-
-<!-- HERO -->
-<section class="hero" id="heroSection">
-  <div class="hero-content">
-    <h1>#ART COLLECTION</h1>
-  </div>
 </section>
 
-<!-- EXPLORE -->
-<section class="explore">
-  <div class="container">
-    <h2 class="section-title">Explore Our Collections</h2>
 
-    <div id="categoryContainer" class="category-grid"></div>
-  </div>
+<!-- COLLECTION SECTION -->
+
+<section class="collections">
+
+<h2>Explore Our Collections</h2>
+
+<div class="category-grid">
+
+
+<div class="category-card">
+
+<img src="/uploads/default1.jpg">
+
+<div class="category-title">
+Paintings
+</div>
+
+</div>
+
+
+<div class="category-card">
+
+<img src="/uploads/default2.jpg">
+
+<div class="category-title">
+Custom Paintings
+</div>
+
+</div>
+
+
+<div class="category-card">
+
+<img src="/uploads/default3.jpg">
+
+<div class="category-title">
+Bookmarks
+</div>
+
+</div>
+
+
+<div class="category-card">
+
+<img src="/uploads/default4.jpg">
+
+<div class="category-title">
+Postcards
+</div>
+
+</div>
+
+
+</div>
+
 </section>
 
-<script>
-async function loadCategories() {
-  const res = await fetch("/api/categories");
-  const categories = await res.json();
 
-  const container = document.getElementById("categoryContainer");
-  container.innerHTML = "";
 
-  categories.sort((a, b) => a.position - b.position);
+<!-- FEATURED PRODUCTS -->
 
-  categories.forEach(cat => {
-    container.innerHTML += `
-      <div class="category-card">
-        <img src="${cat.image}" alt="${cat.name}">
-        <div class="category-overlay">
-          <h3>${cat.name}</h3>
-        </div>
-      </div>
-    `;
-  });
-}
-
-loadCategories();
-</script>
-    <!-- Categories will load here -->
-  </div>
-</section>
-
-<script>
-async function loadCategories() {
-  try {
-    const res = await fetch("/api/categories");
-    const categories = await res.json();
-
-    const container = document.getElementById("categoryContainer");
-    container.innerHTML = "";
-
-    categories.sort((a, b) => a.position - b.position);
-
-    categories.forEach(cat => {
-      container.innerHTML += `
-        <div class="category-card">
-          <img src="${cat.image}" alt="${cat.name}">
-          <div class="overlay">
-            <h3>${cat.name}</h3>
-          </div>
-        </div>
-      `;
-    });
-
-  } catch (err) {
-    console.error("Error loading categories:", err);
-  }
-}
-
-loadCategories();
-</script>
-
-<!-- FEATURED -->
 <section class="featured">
-  <h2>Featured Products</h2>
-  <div class="product-grid" id="productGrid"></div>
+
+<h2>Featured Products</h2>
+
+<div class="product-grid" id="featuredProducts">
+
+</div>
+
 </section>
+
+
+
+<script>
+
+async function loadFeatured(){
+
+const res = await fetch("/api/paintings");
+
+const data = await res.json();
+
+const container = document.getElementById("featuredProducts");
+
+container.innerHTML = "";
+
+data.forEach(product => {
+
+const card = document.createElement("div");
+
+card.className = "product-card";
+
+card.innerHTML = `
+<img src="${product.image}">
+<div class="product-info">
+<div class="product-title">${product.title}</div>
+<div class="price">₹${product.price}</div>
+<button class="add-cart">Add to Cart</button>
+</div>
+`;
+
+container.appendChild(card);
+
+});
+
+}
+
+loadFeatured();
+
+</script>
+
+
+</body>
+</html>
